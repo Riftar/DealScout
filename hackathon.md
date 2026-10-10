@@ -227,12 +227,11 @@ corpus, 4 duplicates, 9 structured reader, 5 text read).
 
 Still open: no tracker export in `data/raw/`, so `data/urls/corpus.txt` is not
 built. `mark_duplicates` is not wired into the Run (integration owns `run/`).
-`read_text` is untested against a live model. Entire Checkpoint from this
-worktree: see the note after the first commit.
+`read_text` is untested against a live model.
 
-### Entire worktree Checkpoint (after first collect commit)
-
-(pending: run `entire checkpoint list` after the commit)
+Entire worktree Checkpoint: after commit `6c52ca7` on `lane/collect`,
+`entire checkpoint list` reported **0 checkpoints** on this branch. Entire did
+not record a Checkpoint from this worktree. Untested no longer: it does not.
 
 ## Demo
 
