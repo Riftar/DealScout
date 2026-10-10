@@ -203,8 +203,9 @@ Completed:
 
 Tests run: `uv run pytest tests/verify tests/value`, 47 passed.
 
-Entire: will log Checkpoint after commit (worktree was wrongly on `lane/report`
-briefly; committed from `lane/verify`).
+Entire: commit `02066c4` has no `Entire-Checkpoint:` trailer. Same finding as
+collect and report: no Checkpoint from a git worktree. This worktree briefly
+checked out `lane/report` before the verify commit was moved onto `lane/verify`.
 
 Still open: Comp size filtering needs a Brief or subject on the `market_price` seam.
 
