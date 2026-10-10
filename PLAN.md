@@ -251,6 +251,11 @@ the demo.
 - Areas: the seven with enough samples in the Sheet: BSD/Serpong, Gading Serpong, Bintaro,
   Depok, Yogyakarta, Sleman, Bantul.
 - Valuation: three tiers (Below, At, Above Market), with Split when land and building disagree.
+  Expected price is the mean of two estimates: land size times the Area's median price per
+  m2 of land, and building size times its median per m2 of building. Ratio = asking price /
+  expected price. Below Market under 0.90, Above Market over 1.10, At Market between. The
+  land ratio and building ratio are tiered the same way; Split is set when they land in
+  different tiers.
 - Brief limits: Area hard; budget hard plus 5% Headroom, raisable to 10%; sizes and
   bedrooms soft within about 20%.
 - Model: any OpenAI-compatible endpoint for local testing; a pay-as-you-go key for recorded

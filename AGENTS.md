@@ -6,7 +6,8 @@ exactly one writer.
 ## Before you write
 
 1. Read `CONTEXT.md` and use its terms exactly, in code, tests, commits and prose.
-2. Read your task brief under `tasks/`. It names your lane and what done looks like.
+2. Read `tasks/README.md` for the current state, then your task brief under `tasks/`. It
+   names your lane and what done looks like.
 3. Work on your lane's branch, `lane/<name>`, in its own worktree.
 
 ## Lanes
@@ -48,6 +49,8 @@ answer that an agent cannot give, and the commit hangs.
   a dependency, added by the integration lane.
 - Requests to a Portal go through the fetcher in `collect/`, which honours robots.txt and
   crawl delays.
+- Session transcripts are pushed to this public repo by Entire. Keep keys, passwords and
+  personal details out of the chat.
 - Snapshots, Run output and `.env` stay local. Files in `evidence/` and `content/` are
   checked free of API keys, phone numbers and people's names before they are committed.
 - A number in a post, the README or the demo comes from `evidence/` or `hackathon.md`.

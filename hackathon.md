@@ -134,6 +134,19 @@ Completed:
 Tests run: `uv run pytest`, 17 passed (5 contracts, 6 fetcher, 6 structured reader). The
 reader tests use hand-written pages, not copies of real adverts.
 
+### 2026-10-10 (Sat), about 17:35 to 17:55 WIB
+
+Completed:
+
+- Task briefs for every lane in `tasks/`, with the function signatures between lanes in
+  `tasks/README.md`, so new sessions can continue without this one.
+- Valuation formula and thresholds written into `PLAN.md` "Decisions".
+- Entire: session transcripts are pushed from the next session on. The planning and setup
+  session stays local by the builder's choice; its Checkpoint ids remain in earlier commit
+  messages but have no public session behind them.
+
+Tests run: `uv run pytest`, 17 passed.
+
 Still open: no model reads the advert text yet; no Extraction Checks; pinhome, masuksini and
 idrumah have no structured reader.
 
