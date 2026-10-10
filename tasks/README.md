@@ -3,45 +3,33 @@
 One brief per piece of work. Pick the brief for your lane, read `AGENTS.md` and `CONTEXT.md`
 first, and write your dated entry in `hackathon.md` when you finish.
 
-## State on Sat 10 Oct, 18:25 WIB
+## State on Sat 10 Oct, 19:30 WIB
 
-On `main` at `1602876`, with 21 tests passing (`uv run pytest`):
+On `main` at `f68d670`, with **90 tests** passing (`uv run pytest`):
 
-- `domain/`: the contracts, and the seven Areas with the names Portals use for them.
-- `collect/fetcher.py`: `Fetcher(snapshot_dir).fetch(url) -> Snapshot`.
-- `extract/structured.py`: `read_structured(html, url, portal) -> ListingRecord`, for
-  rumah123 and 99.co.
-- `run/`: LangGraph Run with SQLite checkpointer, CLI, llm client, neatlogs, and fakes
-  for the other lanes. Live Run over `data/urls/seed.txt` traced (see `hackathon.md`):
-  39.3s, 2,649 tokens, neatlogs `1d5e860da95bc00cac30b0b554a9860a`, confirmed=8,
-  quarantined=4, unreachable=0, deals=0.
-- `run/smoke.py`: checks both models can call a tool and that a trace reaches neatlogs.
-- `data/urls/seed.txt`: 12 Listing URLs.
-- `.cursor/hooks.json`: Entire Cursor hooks wrapped in `cmd.exe` so they run on Windows.
+- `domain/`, `run/`: contracts and LangGraph Run; seams now load real collect, verify,
+  value and report modules when present (no fakes for those steps on `main`).
+- `collect/`, `extract/`: fetcher, corpus, duplicates, structured readers (six
+  Portals), Scout `read_text`.
+- `verify/`, `value/`: Extraction Checks, Verifier, Arbiter, Market Price, Valuation,
+  Shortlist.
+- `report/`, `eval/`: `write_report`, answer key, `eval/score.py`.
+- `evidence/`, `deploy/`, `docs/business-plan/`: ops lane artifacts on `main`.
+- Baseline live Run still in `hackathon.md` (fakes were used at trace time; re-run for
+  after numbers).
 
-Lanes started in worktrees from `1602876` (not yet merged):
-
-| Brief | Lane | Worktree | Branch |
-|---|---|---|---|
-| `collect-extract.md` | collect | `../DealScout-collect` | `lane/collect` |
-| `verify-value.md` | verify | `../DealScout-verify` | `lane/verify` |
-| `report-eval.md` | report | `../DealScout-report` | `lane/report` |
-| `ops-evidence.md` | ops | `../DealScout-ops` | `lane/ops` |
-
-Not started: `content-demo.md` (Sunday). Do not start it.
-
-Still missing real modules: model text read, Extraction Checks, Verifier, Arbiter,
-Valuation package, report. The Run calls fakes for those until their lanes merge.
+Merged: `lane/collect` → `413af59`, `lane/verify` → `0c8a52d`, `lane/report` →
+`b3ea590`, `lane/ops` → `f68d670`. Not merged: `lane/content` (`content-demo`).
 
 ## Order
 
 | Brief | Lane | Starts | Needs |
 |---|---|---|---|
-| `integration-run.md` | integration | done (`2bfc950`) | fakes for the other lanes until they merge |
-| `collect-extract.md` | collect | in progress | nothing |
-| `verify-value.md` | verify | in progress | nothing |
-| `report-eval.md` | report | in progress | hand-made `Shortlist` objects until a Run exists |
-| `ops-evidence.md` | ops | in progress | first traced Run is on `main` |
+| `integration-run.md` | integration | done | merges from lane branches |
+| `collect-extract.md` | collect | merged | — |
+| `verify-value.md` | verify | merged | — |
+| `report-eval.md` | report | merged | — |
+| `ops-evidence.md` | ops | merged | after numbers: before/after, scores.csv |
 | `content-demo.md` | content | Sunday | numbers in `evidence/` |
 
 At most three coder lanes run at once. The integration lane merges.
