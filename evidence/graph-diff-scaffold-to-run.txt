@@ -1,0 +1,202 @@
+﻿Semantic changes c7c1dc8..2bfc950
+
+.entire/settings.json (JSON)
+  ~ section push_sessions body changed (0 dependents)
+
+AGENTS.md (Markdown)
+  ~ module AGENTS.md body changed (0 dependents)
+
+PLAN.md (Markdown)
+  ~ module PLAN.md body changed (0 dependents)
+
+README.md (Markdown)
+  ~ module README.md body changed (0 dependents)
+
+hackathon.md (Markdown)
+  + section 2026-10-10-Sat-about-17:00-to-17:05-WIB added
+  + section 2026-10-10-Sat-about-17:05-to-17:20-WIB added
+  + section 2026-10-10-Sat-about-17:20-to-17:35-WIB added
+  + section 2026-10-10-Sat-about-17:35-to-17:55-WIB added
+  + section 2026-10-10-Sat-about-17:25-to-17:40-WIB-integration-lane added
+
+src/dealscout/collect/fetcher.py (Python)
+  + function portal_of added
+  + class Fetcher added
+  + method Fetcher.__init__ added
+  + method Fetcher._robots_for added
+  + method Fetcher._wait_turn added
+  + method Fetcher.fetch added
+  + method Fetcher.unreachable added
+
+src/dealscout/domain/__init__.py (Python)
+  ~ module src/dealscout/domain/__init__.py body changed (0 dependents)
+
+src/dealscout/domain/areas.py (Python)
+  + function normalize_area added
+
+src/dealscout/domain/listing.py (Python)
+  ~ class ListingRecord body changed (25 dependents)
+
+src/dealscout/extract/structured.py (Python)
+  + function _number added
+  + function _whole added
+  + function _json_ld added
+  + function _has_type added
+  + function _breadcrumb_names added
+  + function _set added
+  + function _read_rumah123 added
+  + function _read_99co added
+  + function read_structured added
+
+src/dealscout/run/cli.py (Python)
+  + function _read_urls added
+  + function build_parser added
+  + function main added
+
+src/dealscout/run/fakes.py (Python)
+  + function read_text added
+  + function run_checks added
+  + function verify added
+  + function arbitrate added
+  + function market_price added
+  + function _tier added
+  + function value added
+  + function shortlist added
+  + function write_report added
+
+src/dealscout/run/graph.py (Python)
+  + class RunState added
+  + function _dump_records added
+  + function _load_records added
+  + function _dump_snapshots added
+  + function _load_snapshots added
+  + function build_graph added
+  + function plan added
+  + function collect added
+  + function extract added
+  + function check added
+  + function recover added
+  + function value_step added
+  + function rank added
+  + function report added
+  + function run_brief added
+
+src/dealscout/run/llm.py (Python)
+  + function _chat added
+  + function scout_model added
+  + function verifier_model added
+
+src/dealscout/run/seams.py (Python)
+  + function _optional added
+  + class Seams added
+  + function default_seams added
+  + function load_html added
+
+src/dealscout/run/smoke.py (Python)
+  + function price_per_m2 added
+  + function check_model added
+  + function main added
+
+tasks/README.md (Markdown)
+  + section Task-briefs added
+  + section State-on-Sat-10-Oct-17:40-WIB added
+  + section Order added
+  + section Starting-a-lane-session added
+  + code_fence code_fence_1_bash added
+  + code_fence code_fence_2_text added
+  + section First-session-after-the-handoff added
+  + code_fence code_fence_3_bash added
+  + code_fence code_fence_4_text added
+  + section Sessions-are-public added
+  + section The-seams-between-lanes added
+  + code_fence code_fence_5_python added
+  + section collect added
+  + section extract added
+  + section verify added
+  + section value added
+  + section report added
+  + code_fence code_fence_6_text added
+
+tasks/collect-extract.md (Markdown)
+  + section Collect-and-extract added
+  + section Build added
+  + section Done added
+  + section Requests added
+
+tasks/content-demo.md (Markdown)
+  + section Content:-demo-and-posts added
+  + section Build added
+  + section Done added
+  + section Requests added
+
+tasks/integration-run.md (Markdown)
+  + section Integration:-the-Run added
+  + section Build added
+  + section Done added
+  + section Requests added
+
+tasks/ops-evidence.md (Markdown)
+  + section Ops-and-evidence added
+  + section Build added
+  + section Done added
+  + section Requests added
+
+tasks/report-eval.md (Markdown)
+  + section Report-and-eval added
+  + section Build added
+  + section Done added
+  + section Requests added
+
+tasks/verify-value.md (Markdown)
+  + section Verify-and-value added
+  + section Build added
+  + section Done added
+  + section Requests added
+
+tests/collect/__init__.py (Python)
+  + module tests/collect/__init__.py added
+
+tests/collect/test_fetcher.py (Python)
+  + function make_fetcher added
+  + function handler added
+  + function test_saves_a_snapshot_of_a_full_page added
+  + function test_robots_disallow_makes_the_listing_unreachable added
+  + function test_empty_shell_is_unreachable added
+  + function test_http_error_is_unreachable added
+  + function test_second_request_to_a_host_waits_for_the_crawl_delay added
+  + function test_portal_names added
+
+tests/extract/__init__.py (Python)
+  + module tests/extract/__init__.py added
+
+tests/extract/test_structured.py (Python)
+  + function rumah123_page added
+  + function ninety_nine_page added
+  + function test_rumah123_states_everything_but_land_and_readiness added
+  + function test_rumah123_new_launch_is_indent added
+  + function test_99co_states_every_required_field added
+  + function test_zero_means_not_stated added
+  + function test_non_house_is_marked_other added
+  + function test_page_without_structured_data_yields_an_empty_record added
+
+tests/run/__init__.py (Python)
+  + module tests/run/__init__.py added
+
+tests/run/test_graph.py (Python)
+  + function _page added
+  + class FakeFetcher added
+  + method FakeFetcher.__init__ added
+  + method FakeFetcher.fetch added
+  + function _structured added
+  + function _seams added
+  + function test_run_end_to_end_on_fakes added
+  + function fetch_with_recovery added
+  + function test_unreachable_after_one_retry added
+  + function test_quarantine_when_required_fields_stay_missing added
+  + function thin_structured added
+  + function test_checkpoint_resume_skips_completed_collect added
+
+Warnings
+  ! W_UNSUPPORTED_FILE data/urls/seed.txt
+    file skipped; no parser for this file type, so its changes are not analyzed
+    head version has no supported parser

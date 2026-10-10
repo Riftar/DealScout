@@ -1,0 +1,21 @@
+﻿  branch       main
+  checkpoints  4
+
+ΓùÅ cd939464-fc2  [temporary]  "how to read it from outside without getting tracked?"
+  10-10 18:02 (4025452) How to read it from outside without getting tracked
+
+ΓùÅ 629035e0-f53  [temporary]  "Change the font, it is hard to read especially the font o..."
+  10-10 17:58 (06d2f3b) Commit it
+  10-10 17:54 (d84d4f7) I dont see the captions
+  10-10 17:52 (7f8b616) Option A
+  10-10 17:51 (8014820) The last poster is too generic actually, need to change it at least for
+  10-10 17:41 (4cdaa32) /banner-design [x] create design.md. Use ui skills available
+  10-10 17:39 (4f00100) Change the font, it is hard to read especially the font on "Describe the
+  10-10 17:37 (4332121) /antislop use simpler language for the poster, people should be able to
+
+ΓùÅ f35c1e6c-efa  [temporary]  "im in the middle of installing Entire, is it still good?"
+  10-10 17:52 (c99189f) Claude Code session updates
+
+ΓùÅ 01M4JP4QBNG3MWX0FYT6JZY5TG  "Create a new poster material for this projects for me be ..."
+  10-10 17:36 (2bfc950) Add the LangGraph Run with fakes, CLI and neatlogs tracing.
+
