@@ -55,3 +55,10 @@ The integration lane merges lanes into `main`.
 - `CONTEXT.md`: the glossary.
 - `PLAN.md`: what DealScout does, the timeline, the evidence the judges check.
 - `hackathon.md`: the build log.
+
+<!-- entire-graph:begin -->
+This repo has the entire-graph code graph installed. Before exploring code with
+grep/find/whole-file reads, read .entire/graph-agent.md — resolution-first guidance
+for using graph retrieval, focused source inspection, and verification.
+@.entire/graph-agent.md
+<!-- entire-graph:end -->

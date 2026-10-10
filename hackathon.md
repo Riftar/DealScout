@@ -60,6 +60,22 @@ Open at the end of the session:
 - Whether Entire records Checkpoints from a git worktree is untested.
 - No portal has been tested from an AWS address. Lamudi and jualrumahjakarta are untested.
 
+### 2026-10-10 (Sat), about 16:45 to 16:55 WIB
+
+Completed:
+
+- Entire: the builder logged in and installed the graph plugin (v0.4.0). Ran
+  `entire graph init-agents`, which wrote `.entire/graph-agent.md` and a pointer in
+  `AGENTS.md`.
+- Enabled Entire for Cursor and OpenCode as well as Claude Code, because other lanes may
+  run in those tools. Pushing session logs is still off.
+- Removed an accidental Entire install from the builder's home folder. It is unrelated to
+  this repo.
+
+Tests run: none. No code exists yet.
+
+Still open: no Checkpoint recorded, no neatlogs trace, no `.env`.
+
 Planned next:
 
 - Setup gate: Entire enabled, a first Checkpoint, a neatlogs hello-trace, a tool-calling
