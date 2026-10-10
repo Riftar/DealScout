@@ -94,9 +94,21 @@ Tests run: `uv run pytest`, 5 passed (contracts only).
 Still open: no neatlogs trace, no `.env`, no model endpoint checked, worktree Checkpoints
 untested.
 
+### 2026-10-10 (Sat), about 17:00 to 17:05 WIB
+
+Completed:
+
+- neatlogs CLI logged in (device flow); one project found.
+- Setup check `python -m dealscout.run.smoke`: both configured models returned the expected
+  tool call (3.1 s and 4.5 s), and the trace reached neatlogs: workflow `dealscout-smoke`,
+  trace `99136eadf37cbd8e9c3c77da929fc23d`, status OK, 5,549 tokens.
+
+Tests run: `uv run pytest`, 5 passed. The smoke check is run by hand, not by pytest.
+
+Still open: worktree Checkpoints untested; no Listing read yet.
+
 Planned next:
 
-- neatlogs hello-trace and a tool-calling check, once `.env` exists.
 - One Listing end to end: fetch, Snapshot, structured read, Extraction Checks.
 
 ## Demo
