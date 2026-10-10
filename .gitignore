@@ -1,0 +1,65 @@
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.aws/
+
+# Run data. Snapshots are full portal pages and carry agents' names and phone numbers.
+data/snapshots/
+data/raw/
+data/runs/
+data/state/
+output/
+*.sqlite
+*.sqlite3
+*.db
+
+# Trimmed, contact-free pages used by tests are committed.
+!tests/fixtures/**
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Demo production. Raw recordings and renders stay local; the final video is hosted elsewhere.
+content/raw/
+content/renders/
+*.mp4
+*.mov
+*.mkv
+*.webm
+*.wav
+
+# Agent and tool state that is personal to one machine
+.claude/settings.local.json
+.claude/worktrees/
+.entire/settings.local.json
+.worktrees/
+
+# Scratch
+scratch/
+tmp/
+*.log
+*.tmp
+
+# Node, if a tool pulls it in
+node_modules/
+
+# OS and editors
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp

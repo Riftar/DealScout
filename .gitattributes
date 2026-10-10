@@ -1,0 +1,8 @@
+# Built on Windows, deployed to Linux: keep line endings LF in the repo.
+* text=auto eol=lf
+*.sh text eol=lf
+*.png binary
+*.jpg binary
+
+# Every lane appends to the build log. Union merge keeps all appended entries.
+hackathon.md merge=union
