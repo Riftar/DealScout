@@ -76,11 +76,28 @@ Tests run: none. No code exists yet.
 
 Still open: no Checkpoint recorded, no neatlogs trace, no `.env`.
 
+### 2026-10-10 (Sat), about 16:55 to 17:05 WIB
+
+Completed:
+
+- First Entire Checkpoint recorded and linked to commit `4bf3ad7`
+  (`Entire-Checkpoint: 01M4JKN6GFF8GTDVFZFGQF4XH2`).
+- Found that Entire's commit hook waits for a terminal answer and hangs an agent's commit.
+  Setting `ENTIRE_TEST_TTY=0` avoids it; the rule is in `AGENTS.md`.
+- Project scaffold: `pyproject.toml`, `uv.lock`, Python 3.12.14, neatlogs SDK 1.4.26.
+- Contracts in `src/dealscout/domain/`: Brief, Listing, Snapshot, Listing Record,
+  Disagreement, Market Price, Valuation, Deal, Shortlist.
+- neatlogs CLI 0.2.0 installed by the builder; profile `work` set. Not logged in yet.
+
+Tests run: `uv run pytest`, 5 passed (contracts only).
+
+Still open: no neatlogs trace, no `.env`, no model endpoint checked, worktree Checkpoints
+untested.
+
 Planned next:
 
-- Setup gate: Entire enabled, a first Checkpoint, a neatlogs hello-trace, a tool-calling
-  check on the chosen model endpoint.
-- Contracts in `src/dealscout/domain/`, then one Listing end to end.
+- neatlogs hello-trace and a tool-calling check, once `.env` exists.
+- One Listing end to end: fetch, Snapshot, structured read, Extraction Checks.
 
 ## Demo
 

@@ -1,0 +1,32 @@
+[project]
+name = "dealscout"
+version = "0.1.0"
+description = "Finds house listings that beat the going price, and proves each one from its source page."
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "httpx>=0.27",
+    "selectolax>=0.3",
+    "pydantic>=2.7",
+    "python-dotenv>=1.0",
+    "langgraph>=0.2",
+    "langgraph-checkpoint-sqlite>=2.0",
+    "langchain-openai>=0.2",
+    "neatlogs",
+]
+
+[project.scripts]
+dealscout = "dealscout.run.cli:main"
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/dealscout"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

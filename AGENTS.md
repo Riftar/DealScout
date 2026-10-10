@@ -39,6 +39,9 @@ A piece of work is done when:
 
 The integration lane merges lanes into `main`.
 
+Commit with `ENTIRE_TEST_TTY=0` set. Entire's commit hook otherwise waits for a terminal
+answer that an agent cannot give, and the commit hangs.
+
 ## Hackathon rules that bind every lane
 
 - Every line here is written in this repo, during the hackathon. Third-party code arrives as

@@ -7,7 +7,8 @@ Built solo for [neatHack](https://neatlogs.com/hackathon), 10 to 12 October 2026
 
 ## Status
 
-Planning is finished and no code exists yet. This section is updated as the build goes on;
+The project scaffold and the contracts in `src/dealscout/domain/` exist; no Listing has
+been read yet. This section is updated as the build goes on;
 `hackathon.md` has the dated log.
 
 ## Why
