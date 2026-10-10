@@ -312,6 +312,21 @@ Tests run: none (ops lane is evidence and deploy docs only).
 Still open: after lane merges, complete before/after numbers, `evidence/scores.csv`,
 live recovery neatlogs trace, cfo.ai export, public post URLs.
 
+### 2026-10-10 (Sat), about 19:35 WIB (integration lane)
+
+Completed:
+
+- Merged into `main`: `lane/collect` (`413af59`), `lane/verify` (`0c8a52d`),
+  `lane/report` (`b3ea590`), `lane/ops` (`f68d670`). `lane/content` not merged.
+- `run/seams.py` now resolves real modules for text read, checks, Verifier, Arbiter,
+  value, and report on `main`.
+
+Tests run: `uv run pytest`, 90 passed.
+
+Still open: re-run seed URLs for a traced after Run and update `evidence/before-after.md`;
+`data/urls/corpus.txt` when `data/raw/` exists; Shortlist contract for Quarantined and
+Unreachable records (report `ReportShortlist` workaround).
+
 ## Demo
 
 Not available yet.
