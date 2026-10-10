@@ -386,6 +386,50 @@ Bricolage Grotesque, picked by the builder from three samples.
 Still open: the fonts load from Google Fonts at render time, so `render.sh` needs a network
 connection. The rule and `DESIGN.md` are on `main`.
 
+### 2026-10-11 (Sun), about 01:45 to 02:35 WIB (integration lane, Dashboard and Jobs)
+
+Brought the code in line with the glossary change of 22:27 (`CONTEXT.md`, ADR 0001): a buyer
+now works through a Dashboard and saved Jobs, where before there was one hard-coded Brief in
+a cron script.
+
+Completed:
+
+- `domain/job.py`: contracts for Job (Brief, Portals from a fixed list of six, daily time in
+  Asia/Jakarta), JobRun, and the Listing list with its rows.
+- `dashboard/store.py`: Jobs and Runs in `data/state/jobs.sqlite`. A daily Run is queued at
+  most once per Job per date, and only one Run goes at a time, so one Fetcher keeps one
+  crawl delay per Portal.
+- `dashboard/schedule.py` and `dealscout tick`: queue the Jobs whose time has come, carry
+  out one queued Run, save its Listing list. Cron calls it every minute. A Job made after
+  today's time first fires tomorrow. A Job's Listing URLs are the `data/urls/*.txt` rows on
+  its Portals.
+- `dashboard/listing_list.py`: Confirmed Listings in the Brief's Area at or under budget
+  plus Headroom, ordered by Valuation ratio, with over-budget marked. No ratio when there
+  are fewer than three Comps or the typed Area did not map. Quarantined and Unreachable
+  Listings are listed with their reason.
+- `dashboard/app.py`, `pages.py` and `dealscout dashboard`: define a Job, change it, Run
+  now, stop daily Runs, read the Listing list. A Brief change shows a warning, then makes a
+  new Job; the old one keeps its list and stops firing. Styled from `DESIGN.md`.
+- The Dashboard reads only the Job store. A Listing list carries confirmed numbers, the
+  Portal's Listing id and a link; no title, description or quoted page text.
+- `deploy/`: systemd unit, nginx site, cron entry and `tick.sh`, which replaces
+  `run-scheduled.sh`. Written by the integration lane because no ops session was open.
+- `run/cli.py`: the traced Run moved into `execute_run`, shared by `run` and `tick`.
+
+Tests run: `uv run pytest`, 151 passed (48 new: `tests/dashboard/`, `tests/domain/test_job.py`).
+The Dashboard was also served locally and checked in a browser and with curl: define a Job,
+a rejected form, the Brief-change warning, a 413 on an oversized body.
+
+Still open:
+
+- No Job has run with live models, and nothing is deployed. The tick was tested with a
+  stand-in for the Run.
+- The site has no accounts: anyone with the URL can define a Job. Spend is held by limits
+  (20 active Jobs, three Run now per Job per day, one Run at a time, nginx write rate).
+- `data/urls/seed.txt` holds 12 URLs on two Portals, so a Job on the other four finds none
+  and its Run fails with that reason.
+- Each Run fetches its pages again; price history across Runs is not kept.
+
 ## Demo
 
 Not available yet.

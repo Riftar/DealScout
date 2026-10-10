@@ -14,7 +14,7 @@ exactly one writer.
 
 | Lane | Writes to |
 |---|---|
-| integration | `src/dealscout/domain/`, `src/dealscout/run/`, `pyproject.toml`, `uv.lock`, root docs, `tasks/` |
+| integration | `src/dealscout/domain/`, `src/dealscout/run/`, `src/dealscout/dashboard/`, `pyproject.toml`, `uv.lock`, root docs, `tasks/` |
 | collect | `src/dealscout/collect/`, `src/dealscout/extract/`, and their tests |
 | verify | `src/dealscout/verify/`, `src/dealscout/value/`, and their tests |
 | report | `src/dealscout/report/`, `eval/`, and their tests |

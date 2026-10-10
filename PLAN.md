@@ -9,6 +9,11 @@ An agent that takes a buyer's Brief (area, budget, size), collects listings from
 property portals, checks its own reading of every listing against the source page, values
 each one against area comps, and returns a Shortlist of Deals with the evidence attached.
 
+A buyer reaches it through the Dashboard, a public website on AWS. There they save a Job:
+one Brief, Portals picked from a fixed list, and a daily time in Asia/Jakarta. Each firing
+of a Job is a Run, and the Job's page shows the Listing list from its latest Run. Added
+Sat 10 Oct, 22:27 WIB (`docs/adr/0001-buyer-jobs-on-aws.md`).
+
 The thesis: in a deal screen, the listing that looks cheapest is often the one the agent
 misread. So DealScout spends its verification effort at the top of its own ranking, and
 never recommends a listing whose numbers it could not confirm on the source page.
@@ -140,7 +145,7 @@ on a portal being reachable.
 | neatlogs | Runtime: one trace per Run, spans per step, tool call and model call, with attributes for listing id, check name, outcome and retries. Detection rules on failed checks, retry counts, cost and latency. Build loop: read failing traces, fix, replay the same Snapshots, compare. | Trace links, before/after pair, recovery trace |
 | Entire | Build time: Checkpoints link each commit to the Claude Code session that wrote it. entire-graph gives the coding agent a map of the repo as it grows. | Checkpoints, graph snapshot in `evidence/` |
 | cfo.ai | The business plan: pricing, costs, revenue, runway. Inputs are measured: model cost per Run and per verified Listing from neatlogs, compute cost from AWS. A script writes `unit_economics.csv` from trace data and Ari imports it. Not used for property valuation. | Plan in `docs/business-plan/` |
-| AWS credit | Optional. One EC2 instance (t3.small, us-east-1, Hackathon_VPC) runs the agent on a schedule and serves the report at a public URL. | Live URL, real compute cost for the plan |
+| AWS credit | One EC2 instance (t3.small, us-east-1, Hackathon_VPC) serves the Dashboard at a public URL and fires each Job daily: cron calls `dealscout tick` every minute. Snapshots stay on its disk and are never served. | Live URL, real compute cost for the plan |
 | Model | Any OpenAI-compatible endpoint, set in `.env`: `LLM_BASE_URL`, `LLM_API_KEY`, `LLM_MODEL_FAST`, `LLM_MODEL_STRONG`. | |
 | Crustdata | Not used. It is company and people data. | |
 
@@ -154,7 +159,9 @@ Defaults I picked; all swappable.
 - neatlogs SDK, attached once per Run with `neatlogs.langchain_handler()`.
 - Fetcher: plain HTTP, honours robots.txt, rate-limited, honest user agent. No bot-detection
   evasion. A blocked portal is a recovery case, not something to work around.
-- Report: one generated static HTML file per Run, no build step.
+- Report: one generated static HTML file per Run, no build step. It stays on the instance.
+- Dashboard: Python's own `http.server` behind nginx, pages rendered in code, Jobs and
+  Listing lists in one SQLite file. No new dependency and no build step.
 
 First-hour check: confirm tool calling works on the chosen model endpoint before building
 on it.
@@ -175,10 +182,11 @@ DealScout/
     value/                  Areas, Comps, Market Price, Valuation
     report/                 Shortlist and Dossier as HTML and JSON
     run/                    the loop, state, tracing, model client, CLI
+    dashboard/              the Dashboard, the Job store, the daily tick
   tests/                    mirrors src; fixtures/ holds trimmed pages
   eval/                     answer key, scoring, before/after results
   data/urls/                corpus URL lists (snapshots/ and runs/ are ignored)
-  deploy/                   EC2 setup and schedule
+  deploy/                   EC2 setup: Dashboard service, nginx, cron tick
   docs/business-plan/       cfo.ai plan and unit_economics.csv
   evidence/                 trace links, screenshots, checkpoints, graph snapshot
   content/                  demo script, storyboard, posts, screenshots
@@ -191,7 +199,7 @@ and worktree. `AGENTS.md` holds the rules; this section holds the reasoning.
 
 | Lane | Writes to | Can start |
 |---|---|---|
-| integration (this session) | `domain/`, `run/`, dependencies, root docs, `tasks/`, all merges | Now |
+| integration (this session) | `domain/`, `run/`, `dashboard/`, dependencies, root docs, `tasks/`, all merges | Now |
 | content | `content/` | Now: posts and demo storyboard need no code |
 | collect | `collect/`, `extract/` | After contracts are merged |
 | verify | `verify/`, `value/` | After contracts are merged |
@@ -236,8 +244,8 @@ and worktree. `AGENTS.md` holds the rules; this section holds the reasoning.
 
 ## Cut order if behind
 
-1. EC2 deploy.
-2. Memory across Runs.
+1. Memory across Runs.
+2. EC2 deploy (the Dashboard then runs on the builder's machine for the demo).
 3. Discovery from portal search pages (use Sheet URLs as the only source of listings).
 4. Report styling.
 
@@ -260,7 +268,10 @@ the demo.
   bedrooms soft within about 20%.
 - Model: any OpenAI-compatible endpoint for local testing; a pay-as-you-go key for recorded
   and deployed Runs.
-- EC2: yes, the same agent started by a schedule. First on the cut list.
+- EC2: yes. It serves the Dashboard and fires Jobs. The Dashboard is how a buyer uses
+  DealScout, so the deploy is no longer first on the cut list.
+- Jobs: a Job's Listing URLs are the corpus URLs on its Portals. Portal search pages are
+  not crawled. A Brief change makes a new Job; the old one keeps its list and stops firing.
 - Before/after metric: about 40 Snapshots with a confirmed answer key, scored on field
   accuracy, true Deals in the top 10, cost per Run and time per Run. The builder spot-checks
   10 answer-key rows.

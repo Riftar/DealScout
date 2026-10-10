@@ -1,0 +1,15 @@
+# /etc/systemd/system/dealscout-dashboard.service
+[Unit]
+Description=DealScout Dashboard
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=ubuntu
+WorkingDirectory=/opt/dealscout
+ExecStart=/home/ubuntu/.local/bin/uv run dealscout dashboard --host 127.0.0.1 --port 8000
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

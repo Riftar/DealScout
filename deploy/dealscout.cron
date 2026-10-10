@@ -1,0 +1,4 @@
+# /etc/cron.d/dealscout
+# Each Job keeps its own daily time in Asia/Jakarta; the tick works that out itself, so the
+# instance clock can stay on UTC.
+* * * * * ubuntu /opt/dealscout/deploy/tick.sh >> /var/log/dealscout/tick.log 2>&1

@@ -7,10 +7,22 @@ Built solo for [neatHack](https://neatlogs.com/hackathon), 10 to 12 October 2026
 
 ## Status
 
-DealScout can fetch a listing page politely, save it, and read what the page's own
-structured data states (rumah123 and 99.co so far). The agents that check that reading
-are next. This section is updated as the build goes on;
-`hackathon.md` has the dated log.
+A Run works end to end: it fetches listing pages politely, saves them, reads them, checks
+that reading against the page with a second model, prices the confirmed listings against
+comparable houses and ranks them.
+
+A buyer uses it through the Dashboard, a small website. There they save a Job: the house
+they want, the portals to read and a time of day. DealScout runs each Job daily at that
+time (Asia/Jakarta) and keeps its list of listings on the Job's page. It runs locally
+today; the public instance is not up yet.
+
+```bash
+uv run dealscout dashboard   # the Dashboard on http://127.0.0.1:8000
+uv run dealscout tick        # fire the Jobs that are due; cron calls this every minute
+```
+
+`deploy/README.md` has the steps for the public instance. This section is updated as the
+build goes on; `hackathon.md` has the dated log.
 
 ## Why
 

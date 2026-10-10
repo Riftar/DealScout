@@ -3,9 +3,9 @@
 One brief per piece of work. Pick the brief for your lane, read `AGENTS.md` and `CONTEXT.md`
 first, and write your dated entry in `hackathon.md` when you finish.
 
-## State on Sat 10 Oct, 19:45 WIB
+## State on Sun 11 Oct, 02:35 WIB
 
-On `main`, with **94 tests** passing (`uv run pytest`):
+On `main`, with **151 tests** passing (`uv run pytest`):
 
 - `domain/`, `run/`: contracts and LangGraph Run; seams now load real collect, verify,
   value and report modules when present (no fakes for those steps on `main`).
@@ -14,7 +14,11 @@ On `main`, with **94 tests** passing (`uv run pytest`):
 - `verify/`, `value/`: Extraction Checks, Verifier, Arbiter, Market Price, Valuation,
   Shortlist.
 - `report/`, `eval/`: `write_report`, answer key, `eval/score.py`.
-- `evidence/`, `deploy/`, `docs/business-plan/`: ops lane artifacts on `main`.
+- `dashboard/`: the Dashboard (`dealscout dashboard`), the Job store, and the tick that
+  fires Jobs (`dealscout tick`). `domain/job.py` holds Job, JobRun and the Listing list.
+  Not yet run on the instance, and no Job has run with live models.
+- `evidence/`, `deploy/`, `docs/business-plan/`: ops lane artifacts on `main`. `deploy/`
+  now holds the Dashboard service, the nginx site and the cron tick.
 - Before/after pair is in `evidence/before-after.md` (fakes vs live models on the
   same seed Brief). After: 318.4 s, confirmed=3 quarantined=9 deals=0,
   trace `4f93ea5781bc955312fabdaf1cf1b111`.
