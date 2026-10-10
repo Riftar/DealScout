@@ -38,4 +38,4 @@ Tests use hand-built records and a fake model.
 
 ## Requests
 
-(none yet)
+- `market_price(area, confirmed)` omits Indent Listings as Comps but has no subject Listing or Brief, so Comps are not filtered to similar size. PLAN.md Value says they should be. Needs the subject or the Brief on the seam if integration wants that.
