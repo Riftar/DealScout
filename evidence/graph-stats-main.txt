@@ -1,0 +1,32 @@
+﻿entire graph stats
+  repo:     D:\Projects\Codex\DealScout
+  sessions: C:\Users\Riftar\.claude\projects\D--Projects-Codex-DealScout
+  window:   --since 30d ┬╖ 2 session(s), 2 transcript file(s)
+  covering: 2026-10-10T08:31:06Z ΓåÆ 2026-10-10T10:58:48Z
+
+graph calls: 1 ┬╖ exploration calls: 100 ┬╖ graph-first rate: 0% (0/2 sessions)
+
+graph calls by verb
+  verb                      calls    est. tokens
+  stats                         1             21
+  TOTAL                         1             21
+
+exploration calls (what the graph is meant to replace)
+  kind                      calls    est. tokens
+  Read (whole file)            28         12,359
+  Read (line range)             1             84
+  Glob                          1             38
+  Bash grep/find/read          70         26,440
+  TOTAL                       100         38,922
+
+session tokens (billed, read from transcript usage)
+  input 402 ┬╖ cache write 1,106,372 ┬╖ cache read 39,617,496 ┬╖ output 257,531 ┬╖ total 40,981,801
+
+ESTIMATED SAVINGS  ~0 tokens
+  credited graph calls: 0 of 1 (search/neighbors/impact only)
+  Model (assumption, not a measurement): each graph locate call (search/neighbors/impact)
+  is credited with the ONE whole-file read it replaced. Counterfactual = on-disk size of
+  the top-hit file that call pointed at (the repo's median tracked-file size when the path
+  cannot be resolved), minus the bytes the graph call actually returned, floored at 0,
+  converted at 4 bytes = 1 token. Real savings depend on what you would actually have read
+  instead; treat this as an estimate, not ground truth.

@@ -1,0 +1,7 @@
+metric,value,unit,trace_id,source,notes
+wall_time_s,39.3,seconds,1d5e860da95bc00cac30b0b554a9860a,hackathon.md,First live dealscout-run over data/urls/seed.txt
+total_tokens,2649,tokens,1d5e860da95bc00cac30b0b554a9860a,hackathon.md,Plan model only on baseline Run
+prompt_tokens,2572,tokens,1d5e860da95bc00cac30b0b554a9860a,hackathon.md,
+completion_tokens,77,tokens,1d5e860da95bc00cac30b0b554a9860a,hackathon.md,
+smoke_total_tokens,5549,tokens,99136eadf37cbd8e9c3c77da929fc23d,hackathon.md,dealscout-smoke setup check
+cost_usd_per_run,,USD,1d5e860da95bc00cac30b0b554a9860a,pending,Fill from neatlogs billing export before cfo.ai import
