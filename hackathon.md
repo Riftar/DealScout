@@ -188,6 +188,25 @@ including resume after Collect).
 Still open: real `read_text`, Extraction Checks, Verifier, Arbiter, value and report
 lanes; deals on a live Run once those land and Comps thicken.
 
+### 2026-10-10 (Sat), about 19:30 WIB (ops lane)
+
+Completed:
+
+- `evidence/`: index mapping `PLAN.md` hard requirements to files; baseline
+  before/after notes; neatlogs trace ids; Entire checkpoint list from `main`,
+  example Checkpoint link for `2bfc950`, `entire graph stats` and
+  `entire graph diff` (scaffold to Run); recovery from `run/graph.py` and
+  `tests/run/test_graph.py`; placeholders for #neatHack URLs and neatlogs
+  screenshots.
+- `docs/business-plan/unit_economics.csv`: wall time and token counts from
+  `hackathon.md`; USD row pending neatlogs export.
+- `deploy/README.md` and `deploy/run-scheduled.sh` for scheduled EC2 Runs.
+
+Tests run: none (ops lane is evidence and deploy docs only).
+
+Still open: after lane merges, complete before/after numbers, `evidence/scores.csv`,
+live recovery neatlogs trace, cfo.ai export, public post URLs.
+
 ## Demo
 
 Not available yet.
