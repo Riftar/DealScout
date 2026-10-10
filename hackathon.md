@@ -53,7 +53,9 @@ Tests run: none. No code exists yet.
 
 Open at the end of the session:
 
-- Entire is not logged in, and no Checkpoint has been recorded yet.
+- Entire is not logged in. `entire checkpoint list` shows 0 Checkpoints: the planning
+  session began before Entire's hooks existed, so its commits are not linked. The next
+  session, started inside this repo, is the first that can be.
 - The neatlogs CLI is not installed and no trace has been sent.
 - Whether Entire records Checkpoints from a git worktree is untested.
 - No portal has been tested from an AWS address. Lamudi and jualrumahjakarta are untested.
