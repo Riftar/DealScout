@@ -48,9 +48,12 @@ Completed:
 
 Tests run: none. No code exists yet.
 
+- Enabled Entire (CLI 0.11.4) for Claude Code in this repo. Pushing session logs is off
+  until the builder decides whether agent transcripts go public.
+
 Open at the end of the session:
 
-- Entire CLI 0.11.4 is installed but not logged in or enabled in this repo.
+- Entire is not logged in, and no Checkpoint has been recorded yet.
 - The neatlogs CLI is not installed and no trace has been sent.
 - Whether Entire records Checkpoints from a git worktree is untested.
 - No portal has been tested from an AWS address. Lamudi and jualrumahjakarta are untested.
