@@ -188,6 +188,30 @@ including resume after Collect).
 Still open: real `read_text`, Extraction Checks, Verifier, Arbiter, value and report
 lanes; deals on a live Run once those land and Comps thicken.
 
+### 2026-10-10 (Sat), about 19:10 WIB (report lane)
+
+Completed:
+
+- `report/html.py`: `write_report(shortlist, out_dir)` writes `report.html` and
+  `shortlist.json`. Each Deal shows rank, asking price, expected price, how far
+  Below Market, the Comps used, and a Dossier (required fields with source and
+  quoted words). Quarantined and Unreachable Listings follow with the reason.
+  The page is self-contained (inline CSS, no outside assets).
+- Held-aside Listings ride on `ReportShortlist` until integration adds them to
+  the Shortlist contract (Request in `tasks/report-eval.md`).
+- `eval/answer_key.jsonl`: 40 rows, URL and required fields only. Hand-written
+  fixture rows plus documented-sample rows; this worktree has no `data/snapshots/`.
+- `eval/score.py`: field accuracy, true Deals in the top 10, cost per Run, time
+  per Run. Sample Run JSON scores 0.9875 / 10 / 0.012 / 39.3 s. Writes
+  `evidence/scores.csv` (ops lane).
+
+Tests run: `uv run pytest tests/report`, 8 passed.
+
+Entire: will log Checkpoint after this commit.
+
+Still open: 40 rows read from real Snapshots once collect has saved pages;
+Shortlist contract still lacks quarantined/unreachable records.
+
 ## Demo
 
 Not available yet.

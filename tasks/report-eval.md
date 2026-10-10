@@ -24,4 +24,6 @@ Lane: report. Branch: `lane/report`. Writes `src/dealscout/report/`, `eval/`,
 
 ## Requests
 
-- ops lane: `eval/score.py` writes `evidence/scores.csv`.
+- ops lane: `eval/score.py` writes `evidence/scores.csv`. Take that file; this lane only writes it as the scorer's output.
+- integration: Shortlist should carry the Quarantined and Unreachable Listing Records (url, status, status_reason), not only the counts, so `write_report` can list each with its reason. Until then the report reads optional `quarantined_listings` and `unreachable_listings` on the Shortlist object (`ReportShortlist` in `report/html.py`).
+- collect / integration: 40 real Snapshot rows for `eval/answer_key.jsonl` wait for saved pages in `data/snapshots/`. This worktree has none; the key is `tests/fixtures/fields.jsonl` plus hand-made `example.test` rows (URL and field values only).
