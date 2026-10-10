@@ -154,6 +154,24 @@ Planned next:
 
 - One Listing end to end: fetch, Snapshot, structured read, Extraction Checks.
 
+### 2026-10-10 (Sat), content lane, posters
+
+Completed:
+
+- `content/posters/`: three 1600 x 900 images for X posts, each an HTML page with a shared
+  stylesheet, rendered to PNG by `render.sh` (headless Edge).
+  - `disagreement`: the 99.co Disagreement from the 17:05 entry (60 m2 against 62 m2, 0 W
+    against 2,200 W, "1miliar" against Rp 1.1 billion).
+  - `ten-in-a-hundred`: the 10 in 100 sampled rows with both sizes, from "Problem" above.
+  - `how-it-works`: Snapshot, Scout, Verifier, Arbiter, then Confirmed or Quarantined. Its
+    header says "In build", because the Verifier and Arbiter do not exist yet.
+- Every number on the posters is from this file. The only name on them is the published one.
+
+Tests run: none; the content lane has no tests. Each PNG was checked at 1600 x 900 by eye.
+
+Still open: the builder picks which poster goes with which post. The fonts load from Google
+Fonts at render time, so `render.sh` needs a network connection.
+
 ## Demo
 
 Not available yet.
