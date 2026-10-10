@@ -249,6 +249,26 @@ built. `mark_duplicates` is not wired into the Run (integration owns `run/`).
 Entire worktree Checkpoint: after commit `6c52ca7` on `lane/collect`,
 `entire checkpoint list` reported **0 checkpoints** on this branch. Entire did
 not record a Checkpoint from this worktree. Untested no longer: it does not.
+### 2026-10-10 (Sat), about 19:20 WIB (verify lane)
+
+Completed:
+
+- `verify/checks.py`: `run_checks` in code (required missing, room counts, size and
+  price bands, URL/title price drift, not a house, structured vs advert text).
+- `verify/verifier.py` and `verify/arbiter.py`: strong-model Verifier reads the
+  Snapshot without the Scout's values; Arbiter settles Disagreements from a page
+  quote or Quarantines.
+- `value/market.py` and `value/valuation.py`: Market Price, Valuation, Shortlist
+  (Below / At / Above Market, Split, soft misses on Deals). Indent Listings are not
+  Comps.
+
+Tests run: `uv run pytest tests/verify tests/value`, 47 passed.
+
+Entire: commit `02066c4` has no `Entire-Checkpoint:` trailer. Same finding as
+collect and report: no Checkpoint from a git worktree. This worktree briefly
+checked out `lane/report` before the verify commit was moved onto `lane/verify`.
+
+Still open: Comp size filtering needs a Brief or subject on the `market_price` seam.
 
 ## Demo
 
