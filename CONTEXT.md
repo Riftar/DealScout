@@ -9,7 +9,15 @@ proves each one from its source page.
 
 **Brief**:
 The house a buyer is looking for: an Area, size ranges, bedrooms and a budget.
-_Avoid_: spec, query, search, filter
+_Avoid_: spec, query, search, filter, prompt, criteria
+
+**Dashboard**:
+The buyer's public website, hosted on AWS, where they define Jobs and read the Listing list for one Job. It never serves Snapshots or contact details from listing pages.
+_Avoid_: console, admin, control panel
+
+**Job**:
+A buyer's saved hunt: one Brief, Portals chosen from a predefined list, and a daily time in Asia/Jakarta (plus Run now). Each firing is a Run. Any Brief change is a new Job, after a warning; the old Job keeps its list.
+_Avoid_: task, campaign, alert, subscription
 
 **Headroom**:
 How far above the Brief's budget an asking price may be and still be shown, because asking prices are negotiable. A Listing shown this way is marked as over budget.
@@ -30,11 +38,11 @@ One advertisement for a house on a Portal.
 _Avoid_: property, ad, row, item
 
 **Portal**:
-A website that publishes Listings.
-_Avoid_: source, site
+A website that publishes Listings. The buyer picks from a predefined list on the Job; they do not type arbitrary domains.
+_Avoid_: source, site, website
 
 **Snapshot**:
-The saved copy of a Listing's page at the moment it was fetched. Every claim cites one.
+The saved copy of a Listing's page at the moment it was fetched. Every claim cites one. Snapshots stay on the instance disk; they are not shown on the Dashboard.
 _Avoid_: cache, raw page, scrape
 
 **Listing Record**:
@@ -50,7 +58,7 @@ Two Listings that advertise the same house.
 _Avoid_: repost
 
 **Area**:
-The named neighbourhood group that Comps are drawn from. Every Listing belongs to exactly one.
+The named neighbourhood group that Comps are drawn from. Every Listing belongs to exactly one. The buyer may type it; DealScout maps that text to one canonical Area when it can. Unmapped text cannot draw Comps.
 _Avoid_: location, region, district
 
 ### Trust
@@ -86,8 +94,8 @@ The median asking price per square metre among a Listing's Comps, for land and f
 _Avoid_: fair value, median, benchmark
 
 **Valuation**:
-Where a Listing's asking price sits against Market Price: Below Market, At Market or Above Market.
-_Avoid_: verdict, tag, grade, undervalued, overpriced
+Where a Listing's asking price sits against Market Price: Below Market, At Market or Above Market. When there are fewer than three Comps, there is no ratio to show.
+_Avoid_: verdict, tag, grade, undervalued, overpriced, score
 
 **Split**:
 A Valuation where land and building point in opposite directions.
@@ -100,7 +108,7 @@ _Avoid_: bargain, undervalue
 ### Running
 
 **Run**:
-One unattended execution for one Brief, from plan to Shortlist.
+One unattended execution of a Job, from plan to Shortlist.
 
 **Scout**:
 The agent that collects Listings and writes Listing Records.
