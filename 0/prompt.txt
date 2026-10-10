@@ -1,0 +1,17 @@
+Change the font, it is hard to read especially the font on "Describe the house you want..."
+
+---
+
+/banner-design [x] create design.md. Use ui skills available
+
+---
+
+the last poster is too generic actually, need to change it at least for the font
+
+---
+
+option A
+
+---
+
+I dont see the captions
