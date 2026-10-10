@@ -43,6 +43,15 @@ Then start the agent inside that folder. The first lane session checks that
 `entire checkpoint list` shows its commit, and logs the result in `hackathon.md`: Entire in
 a worktree is untested.
 
+## First session after the handoff
+
+Run `entire session list`. If it shows session `f35c1e6c-efae-4b66-92c0-7e2bc1b92deb` (the
+planning session, kept private by the builder), remove it before your first commit:
+
+```bash
+entire clean --session f35c1e6c-efae-4b66-92c0-7e2bc1b92deb --force
+```
+
 ## Sessions are public
 
 Entire pushes each session's transcript with `git push`, and the repo is public. Keep keys,
