@@ -12,6 +12,9 @@ Lane: content. Branch: `lane/content`. Writes `content/`. Starts Sunday.
 
 Every number comes from `evidence/` or `hackathon.md`. The builder publishes; agents draft.
 
+Show every draft to the builder and commit it only after the builder says yes in the chat.
+The rule is in `AGENTS.md` under "Done".
+
 ## Done
 
 - The script, read aloud, takes under three minutes.

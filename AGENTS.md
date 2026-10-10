@@ -40,6 +40,11 @@ A piece of work is done when:
 
 The integration lane merges lanes into `main`.
 
+Content waits for the builder. Nothing under `content/` is committed until the builder has
+seen it and said yes in the chat: posters, posts, captions, the demo script. Leave it in the
+working tree, show it, and commit after the yes. A yes covers what was shown; a later change
+needs a new one.
+
 Commit with `ENTIRE_TEST_TTY=0` set. Entire's commit hook otherwise waits for a terminal
 answer that an agent cannot give, and the commit hangs.
 
