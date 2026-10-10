@@ -29,6 +29,16 @@ def test_arbiter_settles_from_a_page_quote_and_confirms():
     assert "Verifier value: 62" in model.prompts[0]
 
 
+def test_arbiter_scales_juta_price_to_whole_rupiah():
+    record = make_record(price_rp=875_000_000)
+    html = page_html()
+    disagreement = Disagreement(field="price_rp", scout_value="875000000", verifier_value="875")
+    model = FakeModel({"quote": "Harga Rp 875000000", "value": "875", "cannot_settle": False})
+    settled = arbitrate(record, [disagreement], html, model)
+    assert settled.status is Status.CONFIRMED
+    assert settled.price_rp == 875_000_000
+
+
 def test_arbiter_quarantines_when_the_quote_is_not_on_the_page():
     record = make_record(building_m2=60, evidence={"building_m2": "Luas bangunan 60 m2"})
     html = page_html(building=62)

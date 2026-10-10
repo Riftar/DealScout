@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 
 from dealscout.domain import (
     REQUIRED_FIELDS,
@@ -15,11 +15,13 @@ from dealscout.domain import (
     normalize_area,
 )
 from dealscout.verify.model import invoke_json, page_text
+from dealscout.verify.util import MIN_PRICE_RP, as_whole_rupiah, prices_agree
 
 _PROMPT = """Read this house listing page and extract the fields below.
 Return one JSON object and nothing else. Use null when the page does not state a field.
-Do not guess. Numbers in whole Rupiah for price_rp; square metres for land_m2 and building_m2.
-property_type must be "house" or "other". readiness must be "ready" or "indent".
+Do not guess. price_rp is whole Rupiah (885 juta is 885000000, not 885).
+land_m2 and building_m2 are square metres.
+property_type must be "house" or "other". readiness must be "ready" or "indent" (siap huni is ready).
 
 Fields: {fields}
 
@@ -46,10 +48,13 @@ class VerifierExtract(BaseModel):
 def _reply_to_extract(model: Any, prompt: str) -> VerifierExtract | None:
     bound = getattr(model, "with_structured_output", None)
     if bound is not None:
-        result = bound(VerifierExtract).invoke(prompt)
-        if isinstance(result, VerifierExtract):
-            return result
-        return VerifierExtract.model_validate(result)
+        try:
+            result = bound(VerifierExtract).invoke(prompt)
+            if isinstance(result, VerifierExtract):
+                return result
+            return VerifierExtract.model_validate(result)
+        except (ValidationError, ValueError, TypeError):
+            pass
     data = invoke_json(model, prompt)
     if data is None:
         return None
@@ -93,7 +98,10 @@ def _canon(field: str, value: Any) -> Any:
             number = float(str(value).replace(",", "").replace("_", "").strip())
         except (TypeError, ValueError):
             return str(value).strip().lower()
-        if field in {"price_rp", "bedrooms", "bathrooms"}:
+        if field == "price_rp":
+            whole = as_whole_rupiah(number)
+            return whole if whole is not None else int(number)
+        if field in {"bedrooms", "bathrooms"}:
             return int(number)
         return number
     return str(value).strip().lower()
@@ -106,6 +114,8 @@ def _same(field: str, left: Any, right: Any) -> bool:
     if a is None or b is None:
         return False
     if isinstance(a, (int, float)) and isinstance(b, (int, float)):
+        if field == "price_rp":
+            return prices_agree(float(a), float(b))
         return abs(float(a) - float(b)) < 1e-6
     return a == b
 
@@ -132,6 +142,17 @@ def verify(record: ListingRecord, html: str, model=None) -> list[Disagreement]:
     for name in REQUIRED_FIELDS:
         scout = getattr(record, name)
         verifier_raw = getattr(extracted, name)
+        if name == "price_rp" and scout is not None and verifier_raw is not None:
+            try:
+                scout_n = float(scout)
+                verifier_n = float(verifier_raw)
+            except (TypeError, ValueError):
+                scout_n = verifier_n = None
+            if scout_n is not None and verifier_n is not None and prices_agree(scout_n, verifier_n):
+                whole = as_whole_rupiah(scout_n, verifier_n)
+                if whole is not None and (record.price_rp or 0) < MIN_PRICE_RP:
+                    record.price_rp = whole
+                continue
         if _same(name, scout, verifier_raw):
             continue
         disagreements.append(

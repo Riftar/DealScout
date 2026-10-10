@@ -19,11 +19,26 @@ Measured live Run, 10 Oct 2026 (`hackathon.md`, integration lane):
 
 Brief: Bintaro, budget Rp 1.5e9, URLs `data/urls/seed.txt` (12 listings).
 
-## After (pending)
+## After (live Scout + Verifier + Arbiter on `main`)
 
-After collect, verify, and report merge into `main`, re-run the same Brief and
-URL file, flush a new neatlogs trace, and score with `eval/score.py` against
-`eval/answer_key.jsonl` (report lane). Append a row to `evidence/scores.csv`.
+Same Brief and URL file, 10 Oct 2026 ~21:13 WIB:
 
-Compare field accuracy, true Deals in the top 10, cost per Run, and time per Run
-from the scorer output.
+| Metric | Value |
+|---|---|
+| neatlogs trace | `4f93ea5781bc955312fabdaf1cf1b111` |
+| Wall time | 318.4 s |
+| Tokens (Plan model only) | 87 (prompt 49, completion 38) |
+| Confirmed | 3 |
+| Quarantined | 9 |
+| Unreachable | 0 |
+| Deals | 0 |
+| neatlogs flush | ok |
+
+Report: `data/runs/20261010T211307Z/report.html` (local). Quarantine reasons
+were mostly Scout vs Verifier price/size disagreements and missing land size.
+None of the three Confirmed Listings became a Deal (Area, budget ceiling, and
+Below Market all have to hold).
+
+`eval/score.py` was not used for this pair: `eval/answer_key.jsonl` is fixture
+URLs, not the live seed list, so field accuracy against that key is not a
+comparison of the two Runs.

@@ -6,6 +6,7 @@ import re
 from urllib.parse import unquote
 
 from dealscout.domain import CheckFailure, FieldSource, ListingRecord, PropertyType
+from dealscout.verify.util import prices_agree
 
 MIN_SIZE_M2 = 15.0
 MAX_SIZE_M2 = 5_000.0
@@ -142,6 +143,8 @@ def run_checks(record: ListingRecord) -> list[CheckFailure]:
             continue
         text_value = number_in_evidence(quote, field)
         if text_value is None:
+            continue
+        if field == "price_rp" and prices_agree(float(structured), text_value):
             continue
         if _numbers_differ(float(structured), text_value, field):
             failures.append(

@@ -5,7 +5,7 @@ from __future__ import annotations
 import re
 from typing import Any
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 
 from dealscout.domain import (
     REQUIRED_FIELDS,
@@ -16,6 +16,7 @@ from dealscout.domain import (
     normalize_area,
 )
 from dealscout.extract.structured import parse_rupiah
+from dealscout.verify.util import as_whole_rupiah
 
 _SPACE = re.compile(r"\s+")
 
@@ -48,6 +49,8 @@ property_type is house or other (kost, kosan, apartemen are other).
 readiness is ready (siap huni, secondary) or indent (baru, new launch, primary).
 price_rp is whole Rupiah. area is the neighbourhood name as written.
 Quotes must be copied verbatim from the advert.
+Reply with one JSON object only. No markdown, no commentary.
+Each present field is {"value": "...", "quote": "..."}. Omit unstated fields.
 
 Advert text:
 {description}
@@ -110,7 +113,10 @@ def _as_readiness(value: str | None, quote: str | None) -> Readiness | None:
 def _convert(field: str, quoted: Quoted) -> Any:
     raw = quoted.value
     if field == "price_rp":
-        return parse_rupiah(raw) or _as_int(raw)
+        parsed = parse_rupiah(raw) or _as_int(raw)
+        if parsed is None:
+            return None
+        return as_whole_rupiah(float(parsed))
     if field in {"land_m2", "building_m2"}:
         return _as_float(raw)
     if field in {"bedrooms", "bathrooms"}:
@@ -124,15 +130,7 @@ def _convert(field: str, quoted: Quoted) -> Any:
     return None
 
 
-def _call_model(model: Any, description: str) -> TextExtract:
-    prompt = _PROMPT.format(description=description)
-    bound = getattr(model, "with_structured_output", None)
-    if bound is not None:
-        result = bound(TextExtract).invoke(prompt)
-        if isinstance(result, TextExtract):
-            return result
-        return TextExtract.model_validate(result)
-    reply = model.invoke(prompt)
+def _reply_text(reply: Any) -> str:
     content = getattr(reply, "content", reply)
     if isinstance(content, list):
         parts: list[str] = []
@@ -140,9 +138,35 @@ def _call_model(model: Any, description: str) -> TextExtract:
             if isinstance(part, dict):
                 parts.append(str(part.get("text") or ""))
             else:
-                parts.append(str(part))
-        content = "".join(parts)
-    return TextExtract.model_validate_json(str(content))
+                parts.append(getattr(part, "text", str(part)))
+        return "".join(parts)
+    return "" if content is None else str(content)
+
+
+def _from_json_blob(text: str) -> TextExtract | None:
+    start, end = text.find("{"), text.rfind("}")
+    if start < 0 or end <= start:
+        return None
+    try:
+        return TextExtract.model_validate_json(text[start : end + 1])
+    except ValidationError:
+        return None
+
+
+def _call_model(model: Any, description: str) -> TextExtract:
+    prompt = _PROMPT.replace("{description}", description)
+    bound = getattr(model, "with_structured_output", None)
+    if bound is not None:
+        try:
+            result = bound(TextExtract).invoke(prompt)
+            if isinstance(result, TextExtract):
+                return result
+            return TextExtract.model_validate(result)
+        except (ValidationError, ValueError, TypeError):
+            pass
+    reply = model.invoke(prompt)
+    parsed = _from_json_blob(_reply_text(reply))
+    return parsed if parsed is not None else TextExtract()
 
 
 def read_text(record: ListingRecord, model) -> ListingRecord:

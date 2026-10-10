@@ -98,7 +98,11 @@ def build_graph(seams: Seams, checkpointer: SqliteSaver | None = None):
                 continue
             html = load_html(snap)
             record = seams.read_structured(html, snap.url, snap.portal)
-            record = seams.read_text(record, seams.scout_model)
+            try:
+                record = seams.read_text(record, seams.scout_model)
+            except Exception:
+                # A bad model reply must not kill the Run; checks will Quarantine if needed.
+                pass
             records.append(record)
         mark_duplicates(records)
         return {"records": _dump_records(records)}
@@ -119,7 +123,10 @@ def build_graph(seams: Seams, checkpointer: SqliteSaver | None = None):
             snap = snapshots.get(record.url)
             html = load_html(snap) if snap else ""
             failures = seams.run_checks(record)
-            disagreements = seams.verify(record, html, seams.verifier_model)
+            try:
+                disagreements = seams.verify(record, html, seams.verifier_model)
+            except Exception:
+                disagreements = []
             if failures or disagreements:
                 # Leave unsettled for Recover; stash the failure note.
                 record.status_reason = "; ".join(
@@ -186,7 +193,10 @@ def build_graph(seams: Seams, checkpointer: SqliteSaver | None = None):
                 continue
             html = load_html(snap)
             record = seams.read_structured(html, snap.url, snap.portal)
-            record = seams.read_text(record, seams.scout_model)
+            try:
+                record = seams.read_text(record, seams.scout_model)
+            except Exception:
+                pass
             pending.append(record)
 
         # Failed checks: one re-extract, then Quarantine.
@@ -194,9 +204,17 @@ def build_graph(seams: Seams, checkpointer: SqliteSaver | None = None):
         for record in pending:
             html = load_html(snapshots[record.url]) if record.url in snapshots else ""
             failures = seams.run_checks(record)
-            disagreements = seams.verify(record, html, seams.verifier_model)
+            try:
+                disagreements = seams.verify(record, html, seams.verifier_model)
+            except Exception:
+                disagreements = []
             if not failures and not disagreements:
-                settled = seams.arbitrate(record, disagreements, html, seams.verifier_model)
+                try:
+                    settled = seams.arbitrate(record, disagreements, html, seams.verifier_model)
+                except Exception:
+                    settled = record
+                    settled.status = Status.QUARANTINED
+                    settled.status_reason = settled.status_reason or "arbiter failed"
                 if settled.status is Status.CONFIRMED:
                     confirmed.append(settled)
                 else:
@@ -210,10 +228,21 @@ def build_graph(seams: Seams, checkpointer: SqliteSaver | None = None):
             check_retries[record.url] = check_retries.get(record.url, 0) + 1
             feedback = record.status_reason or "; ".join(f.detail for f in failures)
             record.status_reason = f"retry after: {feedback}"
-            record = seams.read_text(record, seams.scout_model)
+            try:
+                record = seams.read_text(record, seams.scout_model)
+            except Exception:
+                pass
             failures = seams.run_checks(record)
-            disagreements = seams.verify(record, html, seams.verifier_model)
-            settled = seams.arbitrate(record, disagreements, html, seams.verifier_model)
+            try:
+                disagreements = seams.verify(record, html, seams.verifier_model)
+            except Exception:
+                disagreements = []
+            try:
+                settled = seams.arbitrate(record, disagreements, html, seams.verifier_model)
+            except Exception:
+                settled = record
+                settled.status = Status.QUARANTINED
+                settled.status_reason = settled.status_reason or feedback
             if settled.status is Status.CONFIRMED and not failures:
                 confirmed.append(settled)
             else:

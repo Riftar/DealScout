@@ -119,6 +119,15 @@ def test_structured_value_differs_from_advert_text_trips():
     assert failures[0].field == "building_m2"
 
 
+def test_structured_price_matches_juta_advert_text():
+    record = complete_record(
+        price_rp=885_000_000,
+        sources={"price_rp": FieldSource.STRUCTURED},
+        evidence={"price_rp": "885"},
+    )
+    assert "evidence_differs" not in _names(record)
+
+
 def test_structured_value_matches_advert_text_passes():
     record = complete_record(
         building_m2=62,

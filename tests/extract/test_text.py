@@ -1,3 +1,5 @@
+from types import SimpleNamespace
+
 from dealscout.domain import FieldSource, ListingRecord, Readiness
 from dealscout.extract.structured import read_structured
 from dealscout.extract.text import read_text
@@ -66,6 +68,16 @@ def test_unstated_field_stays_none():
     assert "land_m2" not in filled.sources
 
 
+def test_juta_figure_becomes_whole_rupiah():
+    record = ListingRecord(
+        url="https://example.test/a",
+        portal="example",
+        description="Rumah di Bintaro. Harga Rp 875 juta.",
+    )
+    filled = read_text(record, FakeModel({"price_rp": {"value": "875", "quote": "Harga Rp 875 juta."}}))
+    assert filled.price_rp == 875_000_000
+
+
 def test_quote_not_in_the_advert_is_ignored():
     record = ListingRecord(
         url="https://example.test/a",
@@ -75,6 +87,30 @@ def test_quote_not_in_the_advert_is_ignored():
     filled = read_text(record, FakeModel({"land_m2": {"value": "90", "quote": "Luas tanah 90 m2"}}))
     assert filled.land_m2 is None
     assert filled.evidence == {}
+
+
+def test_markdown_reply_does_not_raise():
+    class MarkdownModel:
+        def with_structured_output(self, schema):
+            parent = self
+
+            class Bound:
+                def invoke(self, prompt):
+                    raise ValueError("Invalid JSON: expected value at line 1 column 1")
+
+            return Bound()
+
+        def invoke(self, prompt):
+            return SimpleNamespace(content="**price_rp:** 875000000\nready")
+
+    record = ListingRecord(
+        url="https://example.test/a",
+        portal="example",
+        description="Harga Rp 875 juta. Rumah siap huni.",
+    )
+    filled = read_text(record, MarkdownModel())
+    assert filled.price_rp is None
+    assert filled.land_m2 is None
 
 
 def test_empty_description_or_missing_model_leaves_the_record():

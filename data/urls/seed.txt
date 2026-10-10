@@ -1,4 +1,6 @@
 # Listing URLs for the first end-to-end slice. Taken from the builder's tracker, 9 Oct 2026 batch.
+# Six Bintaro rumah123 rows are the Comp window for the Bintaro Brief; BSD/99.co rows
+# exercise other Areas and Unreachable-adjacent Portals. Sheet export still belongs in data/raw/.
 https://www.rumah123.com/en/property/tangerang-selatan-bintaro/rumah-murah-bintaro-siap-huni-dekat-stasiun-sudimara-hos42320615/
 https://www.rumah123.com/en/property/tangerang-selatan-bintaro/rumah-nyaman-dan-strategis-di-kawasan-bintaro-sektor-4-cocok-untuk-hunian-keluarga-maupun-investasi-hos41717072/
 https://www.rumah123.com/en/property/tangerang-selatan-bintaro/rumah-siap-huni-10-menit-ke-bintaro-jaya-xchange-dibantu-kpr-j36773-hos41971951/

@@ -5,7 +5,7 @@ from __future__ import annotations
 import re
 from typing import Any
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError, field_validator
 
 from dealscout.domain import (
     Disagreement,
@@ -18,13 +18,14 @@ from dealscout.domain import (
 )
 from dealscout.verify.checks import run_checks
 from dealscout.verify.model import invoke_json
+from dealscout.verify.util import as_whole_rupiah
 
 _SPACE = re.compile(r"\s+")
 
 _PROMPT = """You are DealScout's Arbiter. A Scout and a Verifier read different values from the same Snapshot.
 Settle the field by quoting the exact words on the page that prove the value.
 Return JSON with keys quote and value. Quote must be copied verbatim from the Snapshot.
-For price_rp, value is whole Rupiah with no thousand separators.
+For price_rp, value is whole Rupiah with no thousand separators (885 juta is 885000000).
 If the page does not settle it, return JSON with cannot_settle true.
 
 Field: {field}
@@ -41,18 +42,31 @@ class ArbiterCall(BaseModel):
     value: str | None = None
     cannot_settle: bool = False
 
+    @field_validator("quote", "value", mode="before")
+    @classmethod
+    def _stringify(cls, raw):
+        if raw is None or isinstance(raw, bool):
+            return None if raw is None else str(raw).lower()
+        return str(raw)
+
 
 def _call_model(model: Any, prompt: str) -> ArbiterCall:
     bound = getattr(model, "with_structured_output", None)
     if bound is not None:
-        result = bound(ArbiterCall).invoke(prompt)
-        if isinstance(result, ArbiterCall):
-            return result
-        return ArbiterCall.model_validate(result)
+        try:
+            result = bound(ArbiterCall).invoke(prompt)
+            if isinstance(result, ArbiterCall):
+                return result
+            return ArbiterCall.model_validate(result)
+        except (ValidationError, ValueError, TypeError):
+            pass
     data = invoke_json(model, prompt)
     if data is None:
         return ArbiterCall(cannot_settle=True)
-    return ArbiterCall.model_validate(data)
+    try:
+        return ArbiterCall.model_validate(data)
+    except ValidationError:
+        return ArbiterCall(cannot_settle=True)
 
 
 def _quote_on_page(quote: str | None, html: str) -> bool:
@@ -90,7 +104,11 @@ def _apply(record: ListingRecord, field: str, value: str, quote: str) -> bool:
     converted: Any
     if field == "price_rp":
         amount = _as_float(value)
-        converted = int(amount) if amount is not None else None
+        if amount is None:
+            converted = None
+        else:
+            peer = float(record.price_rp) if record.price_rp else None
+            converted = as_whole_rupiah(amount, peer)
     elif field in {"land_m2", "building_m2"}:
         converted = _as_float(value)
     elif field in {"bedrooms", "bathrooms"}:

@@ -29,6 +29,12 @@ def test_verifier_never_sees_scout_price():
     assert price.verifier_value == "875000000"
 
 
+def test_juta_price_is_not_a_disagreement():
+    record = make_record(price_rp=875_000_000)
+    model = FakeModel(verifier_payload(record, price_rp=875))
+    assert verify(record, HTML, model) == []
+
+
 def test_building_size_disagreement():
     record = make_record(building_m2=60, evidence={"building_m2": "Luas bangunan 60 m2"})
     model = FakeModel(verifier_payload(record, building_m2=62))

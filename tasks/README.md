@@ -15,8 +15,9 @@ On `main`, with **94 tests** passing (`uv run pytest`):
   Shortlist.
 - `report/`, `eval/`: `write_report`, answer key, `eval/score.py`.
 - `evidence/`, `deploy/`, `docs/business-plan/`: ops lane artifacts on `main`.
-- Baseline live Run still in `hackathon.md` (fakes were used at trace time; re-run for
-  after numbers).
+- Before/after pair is in `evidence/before-after.md` (fakes vs live models on the
+  same seed Brief). After: 318.4 s, confirmed=3 quarantined=9 deals=0,
+  trace `4f93ea5781bc955312fabdaf1cf1b111`.
 - Shortlist carries Quarantined and Unreachable records. Duplicates are marked after
   extract. Comps follow Brief size when the Brief states it.
 

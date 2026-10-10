@@ -340,7 +340,27 @@ Completed:
 
 Tests run: `uv run pytest`, 94 passed.
 
-Still open: traced after Run on the seed URLs; corpus when `data/raw/` exists.
+Still open: corpus when `data/raw/` exists.
+
+### 2026-10-10 (Sat), about 21:13 WIB (integration lane, live after Run)
+
+Completed:
+
+- Re-ran the seed Brief after switching the LLM provider. Previous attempt hung
+  (~25 min, no output); killed it. `ArbiterCall.value` now accepts a JSON
+  number as a string so a price like 875000000 does not crash Recover.
+- Live Run: `uv run dealscout run --area Bintaro --budget 1500000000 --urls data/urls/seed.txt`
+  - wall 318.4 s, neatlogs flush ok
+  - trace `4f93ea5781bc955312fabdaf1cf1b111`
+  - Plan tokens 87 (prompt 49, completion 38); other steps are not in that count
+  - confirmed=3 quarantined=9 unreachable=0 deals=0
+  - report `data/runs/20261010T211307Z/report.html` (local)
+
+Tests run this session: `uv run pytest tests/verify tests/run tests/extract`, 53 passed.
+Full suite not re-run after the last Recover try/except.
+
+Still open: no Deal on this seed; Confirmed Listings that are not Deals are
+missing from `shortlist.json` `records`; total tokens across Scout/Verifier/Arbiter.
 
 ### 2026-10-10 (Sat), content lane, posters
 
