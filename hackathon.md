@@ -207,7 +207,8 @@ Completed:
 
 Tests run: `uv run pytest tests/report`, 8 passed.
 
-Entire: will log Checkpoint after this commit.
+Entire: commit `cbf7555` has no `Entire-Checkpoint:` trailer. Same finding as
+collect: Entire did not record a Checkpoint from this worktree.
 
 Still open: 40 rows read from real Snapshots once collect has saved pages;
 Shortlist contract still lacks quarantined/unreachable records.
