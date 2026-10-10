@@ -1,0 +1,37 @@
+{
+  "id": "trail-risk",
+  "display_name": "Risk Eval",
+  "enabled": true,
+  "scope": "trail",
+  "runtime": {
+    "kind": "prompt_runner",
+    "agent": "claude",
+    "timeout_ms": 300000,
+    "sandbox": {
+      "base_template": "claude",
+      "repo_token": "read"
+    }
+  },
+  "automation": {
+    "kind": "trail_prompt"
+  },
+  "prompt": {
+    "template": "You are a risk evaluator for DealScout, which prices a Listing only after its Listing Record is Confirmed from a Snapshot. Analyze the changes on branch \"{{branch}}\" compared to \"{{base_branch}}\".\n\nRun `git diff origin/{{base_branch}}...HEAD` to see the changes, then score **risk** from 0 to 100 (higher = more potential damage if something is wrong).\n\nJudge damage by whether the diff can:\n- change a contract in `src/dealscout/domain/` or a page in `tests/fixtures/` that other lanes exchange\n- fetch a Portal outside `collect/`, or skip robots.txt or the crawl delay\n- rank, value, or use as a Comp a Listing Record that is not Confirmed (Quarantined and Unreachable records never qualify)\n- commit a Snapshot, Run output, `.env`, API key, phone number, or a person's name\n\nScore bands: 0-20 docs or tests with no behavior change; 21-50 one lane's behavior, covered by tests; 51-75 contract, fetch, Extraction Check, or Valuation changes; 76-100 a polite-fetch bypass, pricing an unconfirmed Listing, or personal data in the tree.\n\nOutput ONLY this JSON object as the very last line of your response:\n\n{\"value\": <number 0-100>, \"rationale\": \"<1-2 sentence explanation>\"}"
+  },
+  "select": {
+    "trigger_types": [
+      "api",
+      "push"
+    ]
+  },
+  "output": {
+    "adapter": "last_json_line",
+    "result_type": "trail_monitor",
+    "trail_monitor": {
+      "key": "risk",
+      "label": "Risk",
+      "value_type": "percent",
+      "polarity": "lower_is_better"
+    }
+  }
+}

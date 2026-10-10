@@ -1,0 +1,37 @@
+{
+  "id": "trail-drift",
+  "display_name": "Drift Eval",
+  "enabled": true,
+  "scope": "trail",
+  "runtime": {
+    "kind": "prompt_runner",
+    "agent": "claude",
+    "timeout_ms": 300000,
+    "sandbox": {
+      "base_template": "claude",
+      "repo_token": "read"
+    }
+  },
+  "automation": {
+    "kind": "trail_prompt"
+  },
+  "prompt": {
+    "template": "You are a drift evaluator for DealScout. Analyze the changes on branch \"{{branch}}\" compared to \"{{base_branch}}\".\n\nRun `git diff origin/{{base_branch}}...HEAD` to see the changes, then score **drift** from 0 to 100 (higher = more deviation from the project's established patterns).\n\nEstablished patterns: glossary terms in `CONTEXT.md` (Listing, Portal, Snapshot, Listing Record, Confirmed, Quarantined, Comp, Valuation, Brief, Shortlist, Dossier); Portal requests only through `collect/`; contracts only in `src/dealscout/domain/`; lane packages do not import each other's internals; a number shown to a buyer comes from code that can cite a Snapshot.\n\nScore bands: 0-20 names and layout match the glossary and lanes; 21-50 a local helper that still uses the contracts; 51-75 a new type beside the domain contracts, or a fetch path beside `collect/`; 76-100 a Listing is priced or ranked without a Confirmed Listing Record, or glossary terms are replaced with avoided synonyms.\n\nOutput ONLY this JSON object as the very last line of your response:\n\n{\"value\": <number 0-100>, \"rationale\": \"<1-2 sentence explanation>\"}"
+  },
+  "select": {
+    "trigger_types": [
+      "api",
+      "push"
+    ]
+  },
+  "output": {
+    "adapter": "last_json_line",
+    "result_type": "trail_monitor",
+    "trail_monitor": {
+      "key": "drift",
+      "label": "Drift",
+      "value_type": "percent",
+      "polarity": "lower_is_better"
+    }
+  }
+}
