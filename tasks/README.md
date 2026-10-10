@@ -3,9 +3,9 @@
 One brief per piece of work. Pick the brief for your lane, read `AGENTS.md` and `CONTEXT.md`
 first, and write your dated entry in `hackathon.md` when you finish.
 
-## State on Sat 10 Oct, 19:30 WIB
+## State on Sat 10 Oct, 19:45 WIB
 
-On `main` at `f68d670`, with **90 tests** passing (`uv run pytest`):
+On `main`, with **94 tests** passing (`uv run pytest`):
 
 - `domain/`, `run/`: contracts and LangGraph Run; seams now load real collect, verify,
   value and report modules when present (no fakes for those steps on `main`).
@@ -17,9 +17,11 @@ On `main` at `f68d670`, with **90 tests** passing (`uv run pytest`):
 - `evidence/`, `deploy/`, `docs/business-plan/`: ops lane artifacts on `main`.
 - Baseline live Run still in `hackathon.md` (fakes were used at trace time; re-run for
   after numbers).
+- Shortlist carries Quarantined and Unreachable records. Duplicates are marked after
+  extract. Comps follow Brief size when the Brief states it.
 
-Merged: `lane/collect` → `413af59`, `lane/verify` → `0c8a52d`, `lane/report` →
-`b3ea590`, `lane/ops` → `f68d670`. Not merged: `lane/content` (`content-demo`).
+Merged: collect, verify, report, ops, and content posters (`cb9bd87`). Content
+copy still waits for Sunday numbers.
 
 ## Order
 
@@ -78,7 +80,7 @@ run_checks(record: ListingRecord) -> list[CheckFailure]
 verify(record: ListingRecord, html: str, model) -> list[Disagreement]   # the Verifier
 arbitrate(record, disagreements, html: str, model) -> ListingRecord     # the Arbiter
 # value
-market_price(area: str, confirmed: list[ListingRecord]) -> MarketPrice | None
+market_price(area: str, confirmed: list[ListingRecord], brief: Brief | None = None) -> MarketPrice | None
 value(record: ListingRecord, market: MarketPrice) -> Valuation
 shortlist(brief: Brief, confirmed: list[ListingRecord]) -> Shortlist
 # report

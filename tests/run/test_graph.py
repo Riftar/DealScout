@@ -182,6 +182,9 @@ def test_unreachable_after_one_retry(tmp_path: Path):
     assert fetcher.calls.count(url) == 2
     unreachable = final["unreachable"]
     assert unreachable[0]["status"] == Status.UNREACHABLE.value
+    assert len(shortlist.unreachable_listings) == 1
+    assert shortlist.unreachable_listings[0].url == url
+    assert shortlist.unreachable_listings[0].status_reason == "request failed: Timeout"
 
 
 def test_quarantine_when_required_fields_stay_missing(tmp_path: Path):
@@ -218,6 +221,8 @@ def test_quarantine_when_required_fields_stay_missing(tmp_path: Path):
     assert shortlist.quarantined == 1
     assert shortlist.confirmed == 0
     assert final["quarantined"][0]["status"] == Status.QUARANTINED.value
+    assert len(shortlist.quarantined_listings) == 1
+    assert shortlist.quarantined_listings[0].url == url
 
 
 def test_checkpoint_resume_skips_completed_collect(tmp_path: Path):
@@ -272,3 +277,33 @@ def test_checkpoint_resume_skips_completed_collect(tmp_path: Path):
     assert Path(final["report_path"]).is_file()
     saved = json.loads((tmp_path / "out" / "shortlist.json").read_text(encoding="utf-8"))
     assert saved["confirmed"] == 3
+
+
+def test_duplicate_house_is_not_ranked(tmp_path: Path):
+    urls = [
+        "https://example.test/a",
+        "https://example.test/b",
+        "https://example.test/c",
+        "https://example.test/dup",
+    ]
+    pages = {
+        urls[0]: _page(100, 80, 800_000_000),
+        urls[1]: _page(110, 85, 1_200_000_000),
+        urls[2]: _page(90, 70, 950_000_000),
+        urls[3]: _page(100, 80, 800_000_000),
+    }
+    fetcher = FakeFetcher(pages, tmp_path / "snapshots")
+    final = run_brief(
+        Brief(area="Bintaro", budget_rp=1_500_000_000),
+        urls,
+        snapshot_dir=tmp_path / "snapshots",
+        out_dir=tmp_path / "out",
+        state_dir=tmp_path / "state",
+        seams=_seams(fetcher),
+        thread_id="test-dup",
+    )
+    records = {row["url"]: row for row in final["records"]}
+    assert records[urls[3]]["duplicate_of"] == urls[0]
+    shortlist = Shortlist.model_validate(final["shortlist"])
+    deal_urls = {deal.record.url for deal in shortlist.deals}
+    assert urls[3] not in deal_urls

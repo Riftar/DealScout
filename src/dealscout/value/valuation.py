@@ -67,12 +67,13 @@ def shortlist(brief: Brief, confirmed: list[ListingRecord]) -> Shortlist:
         for record in confirmed
         if record.status is Status.CONFIRMED
         and record.area == brief.area
+        and not record.duplicate_of
         and record.price_rp is not None
         and record.price_rp <= brief.price_ceiling_rp
         and record.land_m2
         and record.building_m2
     ]
-    market = market_price(brief.area, confirmed)
+    market = market_price(brief.area, confirmed, brief)
     deals: list[Deal] = []
     if market is not None:
         for record in in_area:

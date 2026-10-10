@@ -38,4 +38,4 @@ Tests use hand-built records and a fake model.
 
 ## Requests
 
-- `market_price(area, confirmed)` omits Indent Listings as Comps but has no subject Listing or Brief, so Comps are not filtered to similar size. PLAN.md Value says they should be. Needs the subject or the Brief on the seam if integration wants that.
+- `market_price(area, confirmed, brief=None)` now takes an optional Brief. When the Brief states land or building size, Comps outside `soft_tolerance` are dropped. Indent Listings and `duplicate_of` rows are not Comps.

@@ -1,7 +1,7 @@
 import pytest
 from pydantic import ValidationError
 
-from dealscout.domain import REQUIRED_FIELDS, Brief, ListingRecord, PropertyType, Readiness
+from dealscout.domain import REQUIRED_FIELDS, Brief, ListingRecord, PropertyType, Readiness, Shortlist, Status
 
 
 def test_price_ceiling_adds_headroom_to_budget():
@@ -41,3 +41,18 @@ def test_price_per_m2_is_unknown_when_size_is_unknown():
     record = ListingRecord(url="https://example.test/a", portal="example", price_rp=1_500_000_000)
     assert record.price_per_land_m2 is None
     assert record.price_per_building_m2 is None
+
+
+def test_shortlist_carries_quarantined_and_unreachable_records():
+    held = ListingRecord(
+        url="https://example.test/gone",
+        portal="olx",
+        status=Status.UNREACHABLE,
+        status_reason="request failed: Timeout",
+    )
+    shortlist = Shortlist(
+        brief=Brief(area="Bintaro", budget_rp=1_500_000_000),
+        unreachable=1,
+        unreachable_listings=[held],
+    )
+    assert shortlist.unreachable_listings[0].status_reason == "request failed: Timeout"

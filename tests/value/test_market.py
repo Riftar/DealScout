@@ -1,4 +1,4 @@
-from dealscout.domain import Readiness, Status
+from dealscout.domain import Brief, Readiness, Status
 from dealscout.value.market import market_price
 
 from tests.value.helpers import make_confirmed
@@ -49,3 +49,26 @@ def test_indent_listing_is_not_a_comp():
     assert market is not None
     assert market.comp_count == 3
     assert "https://example.test/indent" not in market.comp_urls
+
+
+def test_duplicate_is_not_a_comp():
+    rows = _comps(3)
+    rows[0] = make_confirmed(url="https://example.test/copy", duplicate_of="https://example.test/orig")
+    assert market_price("Bintaro", rows) is None
+
+
+def test_brief_sizes_drop_comps_outside_soft_tolerance():
+    rows = _comps(3)
+    rows.append(
+        make_confirmed(
+            url="https://example.test/huge",
+            land_m2=400,
+            building_m2=300,
+            price_rp=1_200_000_000,
+        )
+    )
+    brief = Brief(area="Bintaro", budget_rp=2_000_000_000, land_m2=100, building_m2=80)
+    market = market_price("Bintaro", rows, brief)
+    assert market is not None
+    assert market.comp_count == 3
+    assert "https://example.test/huge" not in market.comp_urls

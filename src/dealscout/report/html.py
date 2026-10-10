@@ -6,8 +6,6 @@ import html
 import json
 from pathlib import Path
 
-from pydantic import Field
-
 from dealscout.domain import REQUIRED_FIELDS, Deal, ListingRecord, Shortlist
 
 HTML_NAME = "report.html"
@@ -26,14 +24,7 @@ _FIELD_LABELS = {
 
 
 class ReportShortlist(Shortlist):
-    """Shortlist plus held-aside Listing Records the contract does not yet carry.
-
-    Requested of integration: add these lists to Shortlist. Until then a hand-made
-    Shortlist can still show each Quarantined and Unreachable Listing with its reason.
-    """
-
-    quarantined_listings: list[ListingRecord] = Field(default_factory=list)
-    unreachable_listings: list[ListingRecord] = Field(default_factory=list)
+    """Hand-made Shortlist for report tests. Lists now live on the Shortlist contract."""
 
 
 def write_report(shortlist: Shortlist, out_dir: Path) -> Path:
@@ -229,9 +220,7 @@ def _held_table(records: list[ListingRecord], count: int, label: str) -> str:
         if count:
             return (
                 f"<p class='empty'>{count} {label} Listing"
-                f"{'s' if count != 1 else ''} counted. The Shortlist contract "
-                "carries the count only; individual records are attached on a "
-                "hand-made Shortlist until integration adds them.</p>"
+                f"{'s' if count != 1 else ''} counted, with no records attached.</p>"
             )
         return f"<p class='empty'>No {label} Listings.</p>"
     rows = []

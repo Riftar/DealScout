@@ -10,6 +10,7 @@ from typing import Any, TypedDict
 from langgraph.checkpoint.sqlite import SqliteSaver
 from langgraph.graph import END, START, StateGraph
 
+from dealscout.collect.duplicates import mark_duplicates
 from dealscout.collect.fetcher import portal_of
 from dealscout.domain import Brief, ListingRecord, Shortlist, Snapshot, Status
 from dealscout.run.seams import Seams, default_seams, load_html
@@ -99,6 +100,7 @@ def build_graph(seams: Seams, checkpointer: SqliteSaver | None = None):
             record = seams.read_structured(html, snap.url, snap.portal)
             record = seams.read_text(record, seams.scout_model)
             records.append(record)
+        mark_duplicates(records)
         return {"records": _dump_records(records)}
 
     def check(state: RunState) -> dict:
@@ -221,6 +223,7 @@ def build_graph(seams: Seams, checkpointer: SqliteSaver | None = None):
                 quarantined.append(settled)
 
         all_records = confirmed + quarantined + unreachable + still_pending
+        mark_duplicates(all_records)
         return {
             "snapshots": _dump_snapshots(list(snapshots.values())),
             "records": _dump_records(all_records),
@@ -240,11 +243,14 @@ def build_graph(seams: Seams, checkpointer: SqliteSaver | None = None):
         confirmed = _load_records(state.get("confirmed") or [])
         quarantined = _load_records(state.get("quarantined") or [])
         unreachable = _load_records(state.get("unreachable") or [])
-        result = seams.shortlist(brief, confirmed)
+        unique = [record for record in confirmed if not record.duplicate_of]
+        result = seams.shortlist(brief, unique)
         result.quarantined = len(quarantined)
         result.unreachable = len(unreachable)
         result.considered = len(confirmed) + len(quarantined) + len(unreachable)
         result.confirmed = len(confirmed)
+        result.quarantined_listings = quarantined
+        result.unreachable_listings = unreachable
         return {"shortlist": result.model_dump(mode="json")}
 
     def report(state: RunState) -> dict:

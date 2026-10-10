@@ -166,7 +166,7 @@ def unreachable_listing() -> ListingRecord:
 
 
 def handmade_shortlist() -> ReportShortlist:
-    """Hand-made Shortlist with held-aside Listings attached until the contract carries them."""
+    """Hand-made Shortlist with Quarantined and Unreachable Listings attached."""
     return ReportShortlist(
         brief=BRIEF,
         deals=[deal_one(), deal_two()],

@@ -130,6 +130,7 @@ def market_price(area: str, confirmed: list[ListingRecord]) -> MarketPrice | Non
         for r in confirmed
         if r.area == area
         and r.status is Status.CONFIRMED
+        and not r.duplicate_of
         and r.price_per_land_m2 is not None
         and r.price_per_building_m2 is not None
     ]
@@ -179,6 +180,7 @@ def shortlist(brief: Brief, confirmed: list[ListingRecord]) -> Shortlist:
         for r in confirmed
         if r.status is Status.CONFIRMED
         and r.area == brief.area
+        and not r.duplicate_of
         and r.price_rp is not None
         and r.price_rp <= brief.price_ceiling_rp
         and r.land_m2

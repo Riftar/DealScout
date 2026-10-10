@@ -38,4 +38,4 @@ Tests use hand-written pages and a fake model. Real pages stay in `data/snapshot
   readable Portals plus OLX, de-duplicated by URL.
 - Integration: after extract, call `dealscout.collect.duplicates.mark_duplicates`
   on the Listing Records so the same house advertised twice gets `duplicate_of`
-  set to the first URL. Collect cannot edit `run/`.
+  set to the first URL. Collect cannot edit `run/`. Done on `main` (extract and Recover).

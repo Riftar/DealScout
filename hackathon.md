@@ -327,6 +327,21 @@ Still open: re-run seed URLs for a traced after Run and update `evidence/before-
 `data/urls/corpus.txt` when `data/raw/` exists; Shortlist contract for Quarantined and
 Unreachable records (report `ReportShortlist` workaround).
 
+### 2026-10-10 (Sat), about 19:45 WIB (integration lane)
+
+Completed:
+
+- Shortlist contract carries `quarantined_listings` and `unreachable_listings`; the
+  Rank step attaches them so `write_report` lists each with its reason.
+- Extract and Recover call `mark_duplicates`. A Duplicate is Confirmed but is not a
+  Comp and not a Deal.
+- `market_price(..., brief=None)`: when the Brief states land or building size, Comps
+  outside `soft_tolerance` are dropped. Indent Listings stay out.
+
+Tests run: `uv run pytest`, 94 passed.
+
+Still open: traced after Run on the seed URLs; corpus when `data/raw/` exists.
+
 ### 2026-10-10 (Sat), content lane, posters
 
 Completed:

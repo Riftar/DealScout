@@ -53,3 +53,5 @@ class Shortlist(BaseModel):
     confirmed: int = 0
     quarantined: int = 0
     unreachable: int = 0
+    quarantined_listings: list[ListingRecord] = Field(default_factory=list)
+    unreachable_listings: list[ListingRecord] = Field(default_factory=list)
