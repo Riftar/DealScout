@@ -107,6 +107,22 @@ Tests run: `uv run pytest`, 5 passed. The smoke check is run by hand, not by pyt
 
 Still open: worktree Checkpoints untested; no Listing read yet.
 
+### 2026-10-10 (Sat), about 17:05 to 17:20 WIB
+
+Completed:
+
+- `collect/fetcher.py`: plain requests, robots.txt and crawl delay honoured, each page saved
+  as a Snapshot, unusable pages returned as Unreachable with the reason.
+- Fetched two real Listings through it (rumah123 and 99.co), both 200 with about 600 KB.
+- Finding on the first 99.co page: the Portal's own data says building 60 m2 and
+  electricity 0 W, while the advert text says 62 m2 and 2,200 W; the URL says "1miliar" and
+  the price is Rp 1.1 billion. This is the kind of Disagreement the Verifier is for.
+- `data/urls/seed.txt`: 12 Listing URLs for the first slice.
+
+Tests run: `uv run pytest`, 11 passed (5 contracts, 6 fetcher).
+
+Still open: nothing reads a Snapshot into a Listing Record yet.
+
 Planned next:
 
 - One Listing end to end: fetch, Snapshot, structured read, Extraction Checks.
