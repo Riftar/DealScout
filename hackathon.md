@@ -154,6 +154,40 @@ Planned next:
 
 - One Listing end to end: fetch, Snapshot, structured read, Extraction Checks.
 
+### 2026-10-10 (Sat), about 17:25 to 17:40 WIB (integration lane)
+
+Completed:
+
+- `run/llm.py`: `scout_model()` from `LLM_MODEL_FAST`, `verifier_model()` from
+  `LLM_MODEL_STRONG`.
+- `run/graph.py`: one Run as a LangGraph graph (Plan → Collect → Extract → Check →
+  Recover → Value → Rank → Report) with a SQLite checkpointer in `data/state/`.
+- `run/fakes.py` and `run/seams.py`: fakes for `read_text`, checks, Verifier, Arbiter,
+  Market Price, Valuation, Shortlist and `write_report` until those lanes merge.
+- Recover: one retry on a failed fetch or failed check, then Unreachable or Quarantined
+  with the reason. The Run always finishes.
+- `run/cli.py`: `dealscout run --area Bintaro --budget 1500000000 --urls data/urls/seed.txt`.
+- neatlogs: workflow `dealscout-run`, one `neatlogs.trace` per Run, LangChain handler on
+  `graph.invoke`, flush at the end.
+- Entire: this session is on `main` (integration owns it), not a worktree.
+  `entire checkpoint list` before the commit showed another Cursor session's temporary
+  Checkpoint on `main`; planning session `f35c1e6c-…` was already absent.
+
+Live Run over `data/urls/seed.txt` (12 URLs, Bintaro, budget Rp 1.5e9):
+
+- wall time 39.3 s
+- tokens 2,649 (prompt 2,572, completion 77) from the Plan model call
+- neatlogs trace id `1d5e860da95bc00cac30b0b554a9860a`, flush ok
+- result: confirmed=8, quarantined=4, unreachable=0, deals=0 (Market Price needs three
+  Comps in the Brief's Area; the seed mix and fake text-read leave too few Confirmed
+  Bintaro rows Below Market)
+
+Tests run: `uv run pytest`, 21 passed (17 prior + 4 `tests/run` end-to-end on fakes,
+including resume after Collect).
+
+Still open: real `read_text`, Extraction Checks, Verifier, Arbiter, value and report
+lanes; deals on a live Run once those land and Comps thicken.
+
 ## Demo
 
 Not available yet.

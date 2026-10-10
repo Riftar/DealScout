@@ -3,19 +3,21 @@
 One brief per piece of work. Pick the brief for your lane, read `AGENTS.md` and `CONTEXT.md`
 first, and write your dated entry in `hackathon.md` when you finish.
 
-## State on Sat 10 Oct, 17:45 WIB
+## State on Sat 10 Oct, 17:40 WIB
 
-On `main`, with 17 tests passing (`uv run pytest`):
+On `main`, with 21 tests passing (`uv run pytest`):
 
 - `domain/`: the contracts, and the seven Areas with the names Portals use for them.
 - `collect/fetcher.py`: `Fetcher(snapshot_dir).fetch(url) -> Snapshot`.
 - `extract/structured.py`: `read_structured(html, url, portal) -> ListingRecord`, for
   rumah123 and 99.co.
+- `run/`: LangGraph Run with SQLite checkpointer, CLI, llm client, neatlogs, and fakes
+  for the other lanes. Live Run over `data/urls/seed.txt` traced (see `hackathon.md`).
 - `run/smoke.py`: checks both models can call a tool and that a trace reaches neatlogs.
 - `data/urls/seed.txt`: 12 Listing URLs.
 
-Nothing else exists yet: no model reads advert text, no Extraction Checks, no Verifier, no
-Valuation, no report, no Run.
+Still missing real modules: model text read, Extraction Checks, Verifier, Arbiter,
+Valuation package, report. The Run calls fakes for those until their lanes merge.
 
 ## Order
 
