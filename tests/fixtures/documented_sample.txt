@@ -1,0 +1,27 @@
+Answer key source (report lane, 2026-10-10)
+
+data/snapshots/ is empty in this worktree, and real Portal pages stay gitignored
+because they carry agents' names and phone numbers. This folder holds handwritten
+pages only — no real advert HTML.
+
+1. tests/fixtures/rumah123_bintaro.html
+   URL: https://www.rumah123.com/en/property/tangerang-selatan-bintaro/fixture-hos1/
+   Shape: rumah123 JSON-LD. Required fields a human reads from the page:
+   price_rp=875000000, land_m2=55 (from "Land Area: 55 m2" in the description;
+   structured data on this Portal often omits land), building_m2=60, bedrooms=2,
+   bathrooms=2, area=Bintaro, property_type=house, readiness=ready.
+
+2. tests/fixtures/ninety_nine_bsd.html
+   URL: https://www.99.co/id/properti/fixture-bsd
+   Shape: 99.co __NEXT_DATA__. Required fields:
+   price_rp=1100000000, land_m2=57, building_m2=60, bedrooms=2, bathrooms=2,
+   area=BSD/Serpong, property_type=house, readiness=ready.
+
+3. Rows 3–40 in eval/answer_key.jsonl
+   Documented sample covering the seven Areas (Bintaro, BSD/Serpong, Gading
+   Serpong, Depok, Yogyakarta, Sleman, Bantul). URLs are https://example.test/listings/...
+   Field values are chosen so eval/score.py can run before real Snapshots exist.
+   Gold Deals for the sample Shortlist are not flagged in the key (URL and
+   fields only); they are the ranked rows in eval/sample_run.json.
+
+Replace this key with a 40-row read of real Snapshots once data/snapshots/ is filled.
