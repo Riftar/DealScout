@@ -121,7 +121,21 @@ Completed:
 
 Tests run: `uv run pytest`, 11 passed (5 contracts, 6 fetcher).
 
-Still open: nothing reads a Snapshot into a Listing Record yet.
+### 2026-10-10 (Sat), about 17:20 to 17:35 WIB
+
+Completed:
+
+- `extract/structured.py`: reads a Snapshot's own structured data into a Listing Record, in
+  code, for rumah123 and 99.co. A zero or blank counts as not stated.
+- `domain/areas.py`: the seven Areas and the names Portals use for them.
+- Run on the two real Snapshots: the 99.co page stated all eight required fields; the
+  rumah123 page stated six and left land size and Readiness to the advert text.
+
+Tests run: `uv run pytest`, 17 passed (5 contracts, 6 fetcher, 6 structured reader). The
+reader tests use hand-written pages, not copies of real adverts.
+
+Still open: no model reads the advert text yet; no Extraction Checks; pinhome, masuksini and
+idrumah have no structured reader.
 
 Planned next:
 

@@ -7,8 +7,9 @@ Built solo for [neatHack](https://neatlogs.com/hackathon), 10 to 12 October 2026
 
 ## Status
 
-The project scaffold and the contracts in `src/dealscout/domain/` exist; no Listing has
-been read yet. This section is updated as the build goes on;
+DealScout can fetch a listing page politely, save it, and read what the page's own
+structured data states (rumah123 and 99.co so far). The agents that check that reading
+are next. This section is updated as the build goes on;
 `hackathon.md` has the dated log.
 
 ## Why

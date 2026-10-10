@@ -86,6 +86,7 @@ class ListingRecord(BaseModel):
 
     # Kept when the page states them.
     title: str | None = None
+    description: str | None = None
     detail_location: str | None = None
     certificate: str | None = None
     floors: int | None = None

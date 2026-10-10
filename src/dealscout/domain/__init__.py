@@ -1,5 +1,6 @@
 """Contracts: the types every lane exchanges. Terms follow CONTEXT.md."""
 
+from dealscout.domain.areas import AREAS, normalize_area
 from dealscout.domain.brief import Brief
 from dealscout.domain.listing import (
     REQUIRED_FIELDS,
@@ -16,6 +17,7 @@ from dealscout.domain.listing import (
 from dealscout.domain.valuation import Deal, MarketPrice, Shortlist, Valuation, ValuationTier
 
 __all__ = [
+    "AREAS",
     "REQUIRED_FIELDS",
     "Brief",
     "CheckFailure",
@@ -32,4 +34,5 @@ __all__ = [
     "Status",
     "Valuation",
     "ValuationTier",
+    "normalize_area",
 ]
