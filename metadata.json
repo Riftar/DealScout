@@ -1,0 +1,40 @@
+{
+  "cli_version": "0.11.4",
+  "checkpoint_id": "01M4KKTM9S2128DHNN259MD9F4",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "deploy/README.md",
+    "deploy/nginx-dealscout.conf",
+    "src/dealscout/dashboard/app.py",
+    "src/dealscout/dashboard/listing_list.py",
+    "src/dealscout/dashboard/pages.py",
+    "src/dealscout/dashboard/schedule.py",
+    "src/dealscout/dashboard/store.py",
+    "src/dealscout/domain/job.py",
+    "tests/dashboard/__init__.py",
+    "tests/dashboard/helpers.py",
+    "tests/dashboard/test_app.py",
+    "tests/dashboard/test_listing_list.py",
+    "tests/dashboard/test_schedule.py",
+    "tests/dashboard/test_store.py",
+    "tests/domain/test_job.py"
+  ],
+  "sessions": [
+    {
+      "metadata": "/0/metadata.json",
+      "transcript": "/0/full.jsonl",
+      "compact_transcript": "/0/transcript.jsonl",
+      "content_hash": "/0/content_hash.txt",
+      "prompt": "/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 48,
+    "cache_creation_tokens": 188297,
+    "cache_read_tokens": 4330223,
+    "output_tokens": 73370,
+    "api_call_count": 24
+  }
+}

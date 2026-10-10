@@ -1,0 +1,89 @@
+{
+  "cli_version": "0.11.4",
+  "checkpoint_id": "01M4KKTM9S2128DHNN259MD9F4",
+  "session_id": "2a2d1a8e-5345-4fa2-b50b-11bbfbc34ba6",
+  "strategy": "manual-commit",
+  "created_at": "2026-10-10T19:14:55.6566535Z",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "deploy/README.md",
+    "deploy/nginx-dealscout.conf",
+    "src/dealscout/dashboard/app.py",
+    "src/dealscout/dashboard/listing_list.py",
+    "src/dealscout/dashboard/pages.py",
+    "src/dealscout/dashboard/schedule.py",
+    "src/dealscout/dashboard/store.py",
+    "src/dealscout/domain/job.py",
+    "tests/dashboard/__init__.py",
+    "tests/dashboard/helpers.py",
+    "tests/dashboard/test_app.py",
+    "tests/dashboard/test_listing_list.py",
+    "tests/dashboard/test_schedule.py",
+    "tests/dashboard/test_store.py",
+    "tests/domain/test_job.py"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-5-5",
+  "turn_id": "d8eef0a8f6de",
+  "compact_transcript_start": 0,
+  "token_usage": {
+    "input_tokens": 48,
+    "cache_creation_tokens": 188297,
+    "cache_read_tokens": 4330223,
+    "output_tokens": 73370,
+    "api_call_count": 24
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-10-10T19:14:55.60797Z",
+    "agent_lines": 52,
+    "agent_removed": 17,
+    "human_added": 85,
+    "human_modified": 32,
+    "human_removed": 0,
+    "total_committed": 169,
+    "total_lines_changed": 243,
+    "agent_percentage": 28.39506172839506,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 34867,
+      "user_lines_removed": 32,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".archify/architecture-current-status-20261010-212530/candidate.json": 255,
+        ".archify/architecture-current-status-20261010-212530/current-status.browser-check.json": 721,
+        ".archify/architecture-current-status-20261010-212530/current-status.delivery.json": 17,
+        ".archify/architecture-current-status-20261010-212530/current-status.finalize-summary.json": 76,
+        ".archify/architecture-current-status-20261010-212530/current-status.finalize.json": 1031,
+        ".archify/architecture-current-status-20261010-212530/current-status.html": 13930,
+        ".archify/architecture-expected-status-20261010-212531/candidate.json": 814,
+        ".archify/architecture-expected-status-20261010-212531/expected-status.browser-check.json": 721,
+        ".archify/architecture-expected-status-20261010-212531/expected-status.delivery.json": 17,
+        ".archify/architecture-expected-status-20261010-212531/expected-status.finalize-summary.json": 170,
+        ".archify/architecture-expected-status-20261010-212531/expected-status.finalize.json": 1123,
+        ".archify/architecture-expected-status-20261010-212531/expected-status.html": 14046,
+        "src/dealscout/dashboard/app.py": 327,
+        "src/dealscout/dashboard/listing_list.py": 119,
+        "src/dealscout/dashboard/pages.py": 423,
+        "src/dealscout/dashboard/schedule.py": 97,
+        "src/dealscout/dashboard/store.py": 241,
+        "src/dealscout/domain/__init__.py": 16,
+        "src/dealscout/domain/job.py": 126,
+        "src/dealscout/run/cli.py": 104,
+        "tests/dashboard/helpers.py": 47,
+        "tests/dashboard/test_app.py": 162,
+        "tests/dashboard/test_listing_list.py": 75,
+        "tests/dashboard/test_schedule.py": 115,
+        "tests/dashboard/test_store.py": 53,
+        "tests/domain/test_job.py": 41
+      },
+      "user_removed_per_file": {
+        "src/dealscout/run/cli.py": 32
+      }
+    }
+  ]
+}
