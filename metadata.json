@@ -1,0 +1,33 @@
+{
+  "cli_version": "0.11.4",
+  "checkpoint_id": "01M4JNRP1496YMXW0B36JEZGV0",
+  "strategy": "manual-commit",
+  "branch": "lane/content",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "content/posters/disagreement-1600x900.png",
+    "content/posters/disagreement.html",
+    "content/posters/how-it-works-1600x900.png",
+    "content/posters/how-it-works.html",
+    "content/posters/poster.css",
+    "content/posters/render.sh",
+    "content/posters/ten-in-a-hundred-1600x900.png",
+    "content/posters/ten-in-a-hundred.html"
+  ],
+  "sessions": [
+    {
+      "metadata": "/0/metadata.json",
+      "transcript": "/0/full.jsonl",
+      "compact_transcript": "/0/transcript.jsonl",
+      "content_hash": "/0/content_hash.txt",
+      "prompt": ""
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 14,
+    "cache_creation_tokens": 109831,
+    "cache_read_tokens": 825091,
+    "output_tokens": 13538,
+    "api_call_count": 7
+  }
+}
