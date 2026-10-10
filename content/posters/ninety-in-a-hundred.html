@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>DealScout poster: Ninety in a hundred</title>
+<link rel="stylesheet" href="poster.css">
+<style>html, body { background: #14130e; }</style>
+</head>
+<body>
+<main class="poster dark">
+  <header class="top">
+    <span class="mark">Deal<i>Scout</i></span>
+    <span>In build at #neatHack, 10 to 12 Oct 2026</span>
+  </header>
+
+  <section class="body count">
+    <div>
+      <p class="num"><b>90</b> <i>of</i> 100</p>
+      <h1>listings were missing a size.</h1>
+      <p class="sub">You can't judge a price without the size. DealScout reads it from the listing page.</p>
+    </div>
+    <div>
+      <div class="dots" id="dots"></div>
+      <p class="key"><b>●</b> missing land or building size</p>
+    </div>
+  </section>
+
+  <footer class="foot">100 rows sampled from a tracker of about 4,990 Indonesian house listings.</footer>
+</main>
+<script>
+  // 100 sampled rows, 10 with both sizes (hackathon.md, "Problem"), so 90 are missing one.
+  const complete = new Set([3, 17, 24, 38, 41, 56, 62, 75, 89, 94]);
+  document.getElementById("dots").innerHTML =
+    Array.from({ length: 100 }, (_, i) => `<i${complete.has(i) ? "" : ' class="missing"'}></i>`).join("");
+</script>
+</body>
+</html>

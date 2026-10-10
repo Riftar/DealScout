@@ -327,6 +327,30 @@ Still open: re-run seed URLs for a traced after Run and update `evidence/before-
 `data/urls/corpus.txt` when `data/raw/` exists; Shortlist contract for Quarantined and
 Unreachable records (report `ReportShortlist` workaround).
 
+### 2026-10-10 (Sat), content lane, posters
+
+Completed:
+
+- `content/posters/`: three 1600 x 900 images for X posts, each an HTML page with a shared
+  stylesheet, rendered to PNG by `render.sh` (headless Edge). A first set was committed
+  before the builder saw it; this set replaces it with plainer wording and no name.
+  - `what-it-does`: describe the house, get the listings priced below market, with proof.
+  - `two-sizes`: the 99.co Disagreement from the 17:05 entry, 60 m2 against 62 m2.
+  - `ninety-in-a-hundred`: 90 of 100 sampled rows missing a size, from "Problem" above
+    (10 had both).
+- `content/posts.md`: one caption and alt text per poster.
+- Every number is from this file. Each header says "In build", because the checks and the
+  Valuation do not exist yet.
+- New rule in `AGENTS.md`: nothing under `content/` is committed before the builder says yes.
+
+Tests run: none; the content lane has no tests. Each PNG was checked at 1600 x 900 by eye.
+
+The builder approved this set and its captions in the chat before the commit. The font is
+Bricolage Grotesque, picked by the builder from three samples.
+
+Still open: the fonts load from Google Fonts at render time, so `render.sh` needs a network
+connection. The rule and `DESIGN.md` are on `main`.
+
 ## Demo
 
 Not available yet.
