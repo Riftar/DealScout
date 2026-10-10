@@ -88,3 +88,131 @@ def test_non_house_is_marked_other():
 def test_page_without_structured_data_yields_an_empty_record():
     record = read_structured("<html><body>nothing</body></html>", "https://www.99.co/id/properti/x", "99co")
     assert len(record.missing_required()) == 8
+
+
+def pinhome_page(**home_overrides) -> str:
+    home = {
+        "@type": "SingleFamilyResidence",
+        "name": "A house in Bintaro",
+        "description": "Rumah di Bintaro.",
+        "address": {"addressLocality": "Pesanggrahan", "addressRegion": "Kota Jakarta Selatan"},
+        "floorSize": {"@type": "QuantitativeValue", "value": "60", "unitCode": "MTK"},
+        "numberOfBedrooms": "2",
+        "numberOfBathroomsTotal": "2",
+    } | home_overrides
+    graph = {
+        "@graph": [
+            {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {"@type": "ListItem", "position": 1, "name": "Home"},
+                    {"@type": "ListItem", "position": 7, "name": "Bintaro"},
+                ],
+            },
+            {
+                "@type": "RealEstateListing",
+                "name": "A house in Bintaro",
+                "description": "Rumah di Bintaro.",
+                "offers": {
+                    "price": "875000000",
+                    "priceCurrency": "IDR",
+                    "itemCondition": "https://schema.org/UsedCondition",
+                    "itemOffered": home,
+                },
+            },
+        ]
+    }
+    og = '<meta property="og:description" content="Rumah Non Furnished dengan 2 kamar tidur serta luas tanah 55 m² di Bintaro">'
+    return f'<html><head>{og}</head><script type="application/ld+json">{json.dumps(graph)}</script></html>'
+
+
+def masuksini_page(**home_overrides) -> str:
+    home = {
+        "@type": "House",
+        "numberOfBedrooms": 2,
+        "numberOfBathroomsTotal": 2,
+        "floorSize": {"@type": "QuantitativeValue", "value": 60, "unitCode": "MTK"},
+        "address": {
+            "streetAddress": "Fleek Hauz BSD City",
+            "addressLocality": "Kabupaten Tangerang",
+        },
+    } | home_overrides
+    nodes = [
+        {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {"position": 1, "item": {"name": "Beranda"}},
+                {"position": 6, "item": {"name": "BSD Greenwich Park"}},
+            ],
+        },
+        {
+            "@type": ["RealEstateListing", "Product"],
+            "name": "A house in BSD",
+            "sku": "MS-1",
+            "description": "Rumah di BSD.",
+            "category": "Rumah Dijual",
+            "offers": {
+                "price": 875000000,
+                "priceCurrency": "IDR",
+                "itemCondition": "https://schema.org/UsedCondition",
+            },
+            "mainEntity": home,
+            "additionalProperty": [
+                {"@type": "PropertyValue", "name": "Luas Tanah", "value": 55, "unitText": "sqm"},
+                {"@type": "PropertyValue", "name": "Tipe Properti", "value": "Rumah"},
+            ],
+        },
+    ]
+    return f'<html><script type="application/ld+json">{json.dumps(nodes)}</script></html>'
+
+
+def idrumah_page() -> str:
+    return """<html><body>
+    <ul><li itemprop="itemListElement"><span itemprop="name">Rumah</span></li></ul>
+    <h1 class="listing-title">Rumah siap huni di Bintaro</h1>
+    <div class="listing-main-head">Jual Harga Rp. 875 Juta</div>
+    <div class="listing-location">Bintaro, Tangerang Selatan</div>
+    <div class="listing-description">Rumah di Bintaro dekat stasiun.</div>
+    <div class="listing-spec"><table><tr><td>Luas Tanah</td><td>55 M<sup>2</sup></td></tr>
+    <tr><td>Luas Bangunan</td><td>60 M<sup>2</sup></td></tr>
+    <tr><td>Kamar Tidur</td><td>2</td></tr>
+    <tr><td>Kamar Mandi</td><td>2</td></tr>
+    <tr><td>Tingkat</td><td>2</td></tr></table></div>
+    </body></html>"""
+
+
+def test_pinhome_states_required_fields_from_json_ld_and_og():
+    url = "https://www.pinhome.id/dijual/rumah-sekunder/unit/a-house-in-bintaro"
+    record = read_structured(pinhome_page(), url, "pinhome")
+    assert record.missing_required() == []
+    assert record.price_rp == 875_000_000
+    assert (record.land_m2, record.building_m2) == (55, 60)
+    assert (record.bedrooms, record.bathrooms) == (2, 2)
+    assert record.area == "Bintaro"
+    assert record.property_type is PropertyType.HOUSE
+    assert record.readiness is Readiness.READY
+    assert record.sources["land_m2"] is FieldSource.STRUCTURED
+
+
+def test_masuksini_reads_land_from_additional_property():
+    url = "https://masuksini.com/detail-properti/MS-1/a-house-in-bsd/"
+    record = read_structured(masuksini_page(), url, "masuksini")
+    assert record.missing_required() == []
+    assert record.listing_id == "MS-1"
+    assert (record.land_m2, record.building_m2) == (55, 60)
+    assert record.area == "BSD/Serpong"
+    assert record.readiness is Readiness.READY
+    assert record.property_type is PropertyType.HOUSE
+
+
+def test_idrumah_reads_the_spec_table():
+    url = "https://idrumah.com/properti/tangerang-selatan/8396-a-house-in-bintaro/"
+    record = read_structured(idrumah_page(), url, "idrumah")
+    assert record.price_rp == 875_000_000
+    assert (record.land_m2, record.building_m2) == (55, 60)
+    assert (record.bedrooms, record.bathrooms) == (2, 2)
+    assert record.area == "Bintaro"
+    assert record.property_type is PropertyType.HOUSE
+    assert record.listing_id == "8396"
+    assert record.floors == 2
+    assert record.missing_required() == ["readiness"]

@@ -188,6 +188,52 @@ including resume after Collect).
 Still open: real `read_text`, Extraction Checks, Verifier, Arbiter, value and report
 lanes; deals on a live Run once those land and Comps thicken.
 
+### 2026-10-10 (Sat), about 18:30 to 19:15 WIB (collect lane)
+
+Completed:
+
+- `extract/text.py`: `read_text(record, model)` asks the Scout's model for the
+  required fields the advert text states. Missing fields are filled with
+  `FieldSource.MODEL` and the exact quote; a value the advert does not state
+  stays `None`. Quotes for fields structured data already filled go into
+  `evidence` so verify can compare (the 99.co 60 m2 vs 62 m2 case). Tests use a
+  fake model.
+- Structured readers for pinhome, masuksini and idrumah in `extract/structured.py`.
+  Fetched one real Listing page of each through `Fetcher` (Snapshots in
+  `data/snapshots/`, not committed). pinhome and masuksini expose JSON-LD;
+  idrumah exposes a spec table. Land on pinhome is in `og:description`, not
+  JSON-LD.
+- `collect/corpus.py`: last 14 days, five readable Portals plus OLX, de-duplicated
+  by URL. Tests use a tiny fixture CSV. `data/raw/` is still empty.
+- `collect/duplicates.py`: `mark_duplicates` sets `duplicate_of` to the first URL
+  of the same house (same listing id, or the same Area, sizes, rooms and price).
+
+Structured reader fill of the eight required fields:
+
+| Portal | pages | avg filled |
+|---|---|---|
+| rumah123 | 9 | 6.00 (land size and Readiness left to advert text) |
+| 99.co | 4 | 8.00 |
+| pinhome | 1 | 8.00 |
+| masuksini | 1 | 8.00 |
+| idrumah | 1 | 7.00 (Readiness left to advert text) |
+
+rumah123 and 99.co pages were fetched in the earlier session and live in the
+main worktree's Snapshots; this session fetched one page each of pinhome,
+masuksini and idrumah.
+
+Tests run: `uv run pytest tests/collect tests/extract`, 26 passed (6 fetcher, 2
+corpus, 4 duplicates, 9 structured reader, 5 text read).
+
+Still open: no tracker export in `data/raw/`, so `data/urls/corpus.txt` is not
+built. `mark_duplicates` is not wired into the Run (integration owns `run/`).
+`read_text` is untested against a live model. Entire Checkpoint from this
+worktree: see the note after the first commit.
+
+### Entire worktree Checkpoint (after first collect commit)
+
+(pending: run `entire checkpoint list` after the commit)
+
 ## Demo
 
 Not available yet.

@@ -31,4 +31,11 @@ Tests use hand-written pages and a fake model. Real pages stay in `data/snapshot
 
 ## Requests
 
-(none yet)
+- Builder: drop the Property Listings Tracker export (CSV) into `data/raw/` so
+  `collect/corpus.py` can write `data/urls/corpus.txt`. Expected columns: `url`;
+  a portal column (`source` or `portal`); and a date (`last_seen`, `first_seen`,
+  `date`, or `scraped_at`). The module keeps the last 14 days on the five
+  readable Portals plus OLX, de-duplicated by URL.
+- Integration: after extract, call `dealscout.collect.duplicates.mark_duplicates`
+  on the Listing Records so the same house advertised twice gets `duplicate_of`
+  set to the first URL. Collect cannot edit `run/`.
