@@ -188,6 +188,24 @@ including resume after Collect).
 Still open: real `read_text`, Extraction Checks, Verifier, Arbiter, value and report
 lanes; deals on a live Run once those land and Comps thicken.
 
+### 2026-10-10 (Sat), about 18:20 WIB (integration lane)
+
+Completed:
+
+- `entire session list` showed only this Cursor session. Planning session
+  `f35c1e6c-…` was already absent; no `entire clean` needed.
+- Commit `1602876`: `.cursor/hooks.json` Entire Cursor hooks wrapped in `cmd.exe`,
+  because Cursor's hook runner on this Windows machine has no `sh`.
+- Fanned out worktrees from `1602876`, each with `uv sync` and a copied `.env`:
+  `../DealScout-collect` (`lane/collect`), `../DealScout-verify` (`lane/verify`),
+  `../DealScout-report` (`lane/report`), `../DealScout-ops` (`lane/ops`).
+- Started those four lanes. Did not start `content-demo.md`.
+
+Tests run: none new; prior 21 still the baseline on `main`.
+
+Still open: Entire Checkpoints from a git worktree remain untested until a lane
+commits. `data/raw/` (tracker export for the collect corpus) is not on disk yet.
+
 ## Demo
 
 Not available yet.
