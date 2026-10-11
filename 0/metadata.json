@@ -1,0 +1,66 @@
+{
+  "cli_version": "0.11.4",
+  "checkpoint_id": "01M4N7PXNS6VKAX7TKFM3772F1",
+  "session_id": "2a2d1a8e-5345-4fa2-b50b-11bbfbc34ba6",
+  "strategy": "manual-commit",
+  "created_at": "2026-10-11T10:21:52.1227111Z",
+  "branch": "main",
+  "checkpoints_count": 6,
+  "files_touched": [
+    "README.md",
+    "deploy/README.md",
+    "hackathon.md",
+    "tasks/README.md"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-5-5",
+  "turn_id": "14e2c208a91d",
+  "checkpoint_transcript_start": 344,
+  "transcript_lines_at_start": 344,
+  "compact_transcript_start": 44,
+  "token_usage": {
+    "input_tokens": 56,
+    "cache_creation_tokens": 216082,
+    "cache_read_tokens": 5826208,
+    "output_tokens": 15906,
+    "api_call_count": 24
+  },
+  "session_metrics": {
+    "turn_count": 6
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-10-11T10:21:52.073705Z",
+    "agent_lines": 78,
+    "agent_removed": 6,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 78,
+    "total_lines_changed": 84,
+    "agent_percentage": 100,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 32921,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".archify/architecture-current-status-20261010-212530/candidate.json": 255,
+        ".archify/architecture-current-status-20261010-212530/current-status.browser-check.json": 721,
+        ".archify/architecture-current-status-20261010-212530/current-status.delivery.json": 17,
+        ".archify/architecture-current-status-20261010-212530/current-status.finalize-summary.json": 76,
+        ".archify/architecture-current-status-20261010-212530/current-status.finalize.json": 1031,
+        ".archify/architecture-current-status-20261010-212530/current-status.html": 13930,
+        ".archify/architecture-expected-status-20261010-212531/candidate.json": 814,
+        ".archify/architecture-expected-status-20261010-212531/expected-status.browser-check.json": 721,
+        ".archify/architecture-expected-status-20261010-212531/expected-status.delivery.json": 17,
+        ".archify/architecture-expected-status-20261010-212531/expected-status.finalize-summary.json": 170,
+        ".archify/architecture-expected-status-20261010-212531/expected-status.finalize.json": 1123,
+        ".archify/architecture-expected-status-20261010-212531/expected-status.html": 14046
+      }
+    }
+  ]
+}

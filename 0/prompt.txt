@@ -1,0 +1,59 @@
+can you test and verify all works?
+
+---
+
+<task-notification>
+<task-id>bv1lm7s3r</task-id>
+<tool-use-id>toolu_01PfW4eFJGWPAJicXHAu23xG</tool-use-id>
+<output-file>C:\Users\Riftar\AppData\Local\Temp\claude\D--Projects-Codex-DealScout\2a2d1a8e-5345-4fa2-b50b-11bbfbc34ba6\tasks\bv1lm7s3r.output</output-file>
+<status>completed</status>
+<summary>Background command "Tick once a minute like cron until both Jobs' Runs finish, then report" completed (exit code 0)</summary>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>bmgjdgtdw</task-id>
+<tool-use-id>toolu_012aFPueK5CpM5RqufYxwxkT</tool-use-id>
+<output-file>C:\Users\Riftar\AppData\Local\Temp\claude\D--Projects-Codex-DealScout\2a2d1a8e-5345-4fa2-b50b-11bbfbc34ba6\tasks\bmgjdgtdw.output</output-file>
+<status>failed</status>
+<summary>Background command "Serve the Dashboard on port 8766 from a fresh scratch Job store" failed with exit code 1</summary>
+</task-notification>
+
+---
+
+can you try again, I changed the model
+
+---
+
+<task-notification>
+<task-id>bl549dm20</task-id>
+<tool-use-id>toolu_01WUjfXzCquAjQK4LKNcCNso</tool-use-id>
+<output-file>C:\Users\Riftar\AppData\Local\Temp\claude\D--Projects-Codex-DealScout\2a2d1a8e-5345-4fa2-b50b-11bbfbc34ba6\tasks\bl549dm20.output</output-file>
+<status>completed</status>
+<summary>Background command "Tick once a minute like cron until the live Run finishes, then report" completed (exit code 0)</summary>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>bvmi7t32r</task-id>
+<tool-use-id>toolu_01HZwLKzPHnVDS9tGcy6HZwB</tool-use-id>
+<output-file>C:\Users\Riftar\AppData\Local\Temp\claude\D--Projects-Codex-DealScout\2a2d1a8e-5345-4fa2-b50b-11bbfbc34ba6\tasks\bvmi7t32r.output</output-file>
+<status>completed</status>
+<summary>Background command "Wait for the live Run to finish and report its Listing list" completed (exit code 0)</summary>
+</task-notification>
+
+---
+
+<task-notification>
+<task-id>bq1mijtsq</task-id>
+<tool-use-id>toolu_01C6twjyZW1oHfzBpvWuWXQh</tool-use-id>
+<output-file>C:\Users\Riftar\AppData\Local\Temp\claude\D--Projects-Codex-DealScout\2a2d1a8e-5345-4fa2-b50b-11bbfbc34ba6\tasks\bq1mijtsq.output</output-file>
+<status>failed</status>
+<summary>Background command "Serve the Dashboard on port 8767 from a fresh scratch Job store" failed with exit code 1</summary>
+</task-notification>
+
+---
+
+ok push it and update the readme and docs
