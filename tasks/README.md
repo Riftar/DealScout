@@ -3,7 +3,7 @@
 One brief per piece of work. Pick the brief for your lane, read `AGENTS.md` and `CONTEXT.md`
 first, and write your dated entry in `hackathon.md` when you finish.
 
-## State on Sun 11 Oct, 02:35 WIB
+## State on Sun 11 Oct, 17:30 WIB
 
 On `main`, with **151 tests** passing (`uv run pytest`):
 
@@ -16,7 +16,9 @@ On `main`, with **151 tests** passing (`uv run pytest`):
 - `report/`, `eval/`: `write_report`, answer key, `eval/score.py`.
 - `dashboard/`: the Dashboard (`dealscout dashboard`), the Job store, and the tick that
   fires Jobs (`dealscout tick`). `domain/job.py` holds Job, JobRun and the Listing list.
-  Not yet run on the instance, and no Job has run with live models.
+  Run locally with live models on 11 Oct (trace `3b5428047b812762979cdab6b61ca1e5`):
+  the Run finished in 31 minutes with confirmed=0 quarantined=12 on the seed URLs.
+  Not yet run on the instance.
 - `evidence/`, `deploy/`, `docs/business-plan/`: ops lane artifacts on `main`. `deploy/`
   now holds the Dashboard service, the nginx site and the cron tick.
 - Before/after pair is in `evidence/before-after.md` (fakes vs live models on the

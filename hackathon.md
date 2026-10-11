@@ -430,6 +430,42 @@ Still open:
   and its Run fails with that reason.
 - Each Run fetches its pages again; price history across Runs is not kept.
 
+### 2026-10-11 (Sun), about 16:30 to 17:30 WIB (integration lane, Dashboard tested live)
+
+Tested the Dashboard, Jobs and the tick on the builder's machine against a scratch Job
+store, with the Dashboard served locally and a script calling `dealscout tick` once a
+minute in place of cron.
+
+Measured:
+
+- First try, 16:33: "Run now" started a Run at once. It failed in under a minute because
+  the model endpoint answered 422, budget exceeded. The Job page showed "the Run failed
+  (UnprocessableEntityError)" and the detail stayed in the tick log.
+- Daily time: a Job set to 16:35 WIB was fired by the first tick after 16:35 and by no
+  later tick. It was on a Portal with no URLs on file, and its Run failed with that reason.
+- Run with the model steps switched off, 16:37: 37 seconds, 12 pages fetched, confirmed=4
+  quarantined=8. The four Confirmed were in other Areas than the Brief's, so no Listing
+  fit and there were no Comps.
+- Run with live models after the builder changed the model, 16:45 to 17:16: 31 minutes,
+  confirmed=0 quarantined=12 unreachable=0, trace `3b5428047b812762979cdab6b61ca1e5`.
+  Five minutes went on plan, fetch, read and Check; 26 on the recover step. Twenty ticks
+  ran meanwhile and none started a second Run.
+- For comparison, the Run of 10 Oct on the earlier model: 318.4 s, confirmed=3
+  quarantined=9 on the same 12 URLs (`evidence/before-after.md`).
+- No phone number or WhatsApp link on the Job pages. The form fits a 375 px screen.
+
+Tests run: `uv run pytest`, 151 passed.
+
+Still open:
+
+- The newer model Confirmed nothing. Reasons on the list are Verifier Disagreements on land
+  size, building size, bedrooms and Readiness, including on the four 99.co Listings that
+  pass the Checks with no model. Not yet investigated.
+- A Valuation ratio on a Job page has only been seen with made-up records, because no live
+  Run has produced three Comps in one Area.
+- Nothing is deployed. The systemd unit, nginx site and cron entry have not run on an
+  instance.
+
 ## Demo
 
 Not available yet.

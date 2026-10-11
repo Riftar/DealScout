@@ -74,6 +74,13 @@ requests. There are no accounts. What holds spend down:
 
 Set the two variables in `.env` and restart the Dashboard to change them.
 
+## How long a Run takes
+
+A Run is one model call after another. On 11 Oct a Run over the 12 seed URLs took 31
+minutes on the builder's machine (`hackathon.md`). A Run still marked as going after two
+hours is treated as dead and marked failed, so keep a Job's URL list small enough to
+finish inside that, or raise `STALE_AFTER` in `src/dealscout/dashboard/store.py`.
+
 ## What stays off the site
 
 - Snapshots carry agents' names and phone numbers. They stay in `data/snapshots/`, which

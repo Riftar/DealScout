@@ -13,16 +13,41 @@ comparable houses and ranks them.
 
 A buyer uses it through the Dashboard, a small website. There they save a Job: the house
 they want, the portals to read and a time of day. DealScout runs each Job daily at that
-time (Asia/Jakarta) and keeps its list of listings on the Job's page. It runs locally
-today; the public instance is not up yet.
+time (Asia/Jakarta) and keeps its list of listings on the Job's page.
+
+Tested on Sun 11 Oct on the builder's machine: a Job made on the Dashboard ran from "Run
+now" to a finished list with live models, and a Job fired on its own at its daily time.
+That Run took 31 minutes for 12 listings and confirmed none of them, so its list was
+empty; an earlier model confirmed 3 of the same 12 in 318 seconds. Why the newer model
+disagrees with the pages so often is the next thing to look at. The public instance is not
+up yet.
+
+This section is updated as the build goes on; `hackathon.md` has the dated log.
+
+## Try it
 
 ```bash
+uv sync
+cp .env.example .env         # fill in the model endpoint and the neatlogs key
 uv run dealscout dashboard   # the Dashboard on http://127.0.0.1:8000
 uv run dealscout tick        # fire the Jobs that are due; cron calls this every minute
+uv run pytest                # 151 tests, no network or keys needed
 ```
 
-`deploy/README.md` has the steps for the public instance. This section is updated as the
-build goes on; `hackathon.md` has the dated log.
+On the Dashboard:
+
+- **Define a Job**: the area, the budget, optional sizes and bedrooms, the portals to
+  read, and the time of the daily Run.
+- **A Job's page**: the listings that fit, best price against the market first, each with
+  a link to its own page. Listings that could not be confirmed or read are listed below
+  with the reason.
+- **Run now** starts a Run without waiting for the daily time.
+- **Change the Job**: portals and time change in place. A change to the house itself
+  makes a new Job after a warning, and the old one keeps its list.
+
+A Job reads the listing URLs in `data/urls/` that are on its portals. Saved pages never
+leave the machine; the Dashboard shows only the confirmed numbers and a link.
+[deploy/README.md](deploy/README.md) has the steps for the public instance.
 
 ## Why
 
@@ -51,6 +76,8 @@ Only confirmed listings are priced against comparable houses or ranked.
 - [PLAN.md](PLAN.md): the workflow, the timeline and the evidence the judges check.
 - [CONTEXT.md](CONTEXT.md): the glossary.
 - [AGENTS.md](AGENTS.md): how several coding agents work in this repo at once.
+- [docs/adr/0001-buyer-jobs-on-aws.md](docs/adr/0001-buyer-jobs-on-aws.md): why the buyer works through Jobs on a Dashboard.
+- [deploy/README.md](deploy/README.md): running the Dashboard and the daily Runs on one instance.
 - [hackathon.md](hackathon.md): the build log.
 
 ## Data and fetching
